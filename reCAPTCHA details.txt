@@ -1,5 +1,0 @@
-rc_key = 6LfBBqUpAAAAAGerZTB9de7ktnoFXYR7YBUkC2il
-rc_secret_key = 6LfBBqUpAAAAAPkBeJG8TA8OhSxih3vvQeZ-YB8n
-
-google_API_key = AIzaSyCO4Z04G4l3Kra3O3DwvHQskVpfYnoU-3E
-google_maps_platform_key = AIzaSyBifBwHRo9fLndbdRsz8sRytIiQro2hKpA
