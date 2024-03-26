@@ -9,7 +9,7 @@ from django.views.generic.base import TemplateView
 from django.utils.decorators import method_decorator
 
 
-from did_django_google_api_tutorial.mixins import(
+from tutorial.mixins import(
 	AjaxFormMixin, 
 	reCAPTCHAValidation,
 	FormErrors,
@@ -17,7 +17,7 @@ from did_django_google_api_tutorial.mixins import(
 	)
 
 
-from .forms import (
+from ..users_tutorial.forms import (
 	UserForm,
 	UserProfileForm,
 	AuthForm,

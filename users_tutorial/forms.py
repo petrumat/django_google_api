@@ -2,8 +2,7 @@ from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import UserProfile
-
+from ..users_tutorial.models import UserProfile
 
 
 class UserForm(UserCreationForm):
@@ -31,8 +30,6 @@ class UserForm(UserCreationForm):
 
 
 
-
-
 class AuthForm(AuthenticationForm):
 	'''
 	Form that uses built-in AuthenticationForm to handel user auth
@@ -45,7 +42,6 @@ class AuthForm(AuthenticationForm):
 	class Meta:
 		model = User
 		fields = ('username','password', )
-
 
 
 
