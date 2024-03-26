@@ -1,4 +1,4 @@
-"""did_django_google_api_tutorial URL Configuration
+"""tutorial URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
@@ -19,7 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', include('main.urls', namespace="main")),
+    path('', include('main_tutorial.urls', namespace="main_tutorial")),
     path('', include('users.urls', namespace="users")),
     path('admin/', admin.site.urls),
 ]
