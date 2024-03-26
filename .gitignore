@@ -1,0 +1,6 @@
+.vscode/settings.json
+main/__pycache__/
+main/migrations/__pycache__/
+tutorial/__pycache__/
+users/__pycache__/
+users/migrations/__pycache__/
