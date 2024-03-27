@@ -10,7 +10,7 @@
 
 {% block content %}
 
-<h3 id="map">Django Google API Course - Map</h3>
+<h3 id="map">Django Google API - Map</h3>
 
 <div class="container">
 
@@ -89,17 +89,17 @@
 <script type="text/javascript">
 
     var google_api_key = "{{google_api_key|safe}}";
-    var lat_a = {{lat_a|safe}};
-    var long_a = {{long_a|safe}};
-    var lat_b = {{lat_b|safe}};
-    var long_b = {{long_b|safe}};
-    var lat_c = {{lat_c|safe}};
-    var long_c = {{long_c|safe}};
-    var lat_d = {{lat_d|safe}};
-    var long_d = {{long_d|safe}};
+    var lat_a = {lat_a};
+    var long_a = {long_a};
+    var lat_b = {lat_b};
+    var long_b = {long_b};
+    var lat_c = {lat_c};
+    var long_c = {long_c};
+    var lat_d = {lat_d};
+    var long_d = {long_d};
     var origin = "{{origin|safe}}";
     var destination = "{{destination|safe}}";
-    var directions = {{directions|safe}}
+    var directions = {directions}
 
   </script>
 

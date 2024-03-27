@@ -36,8 +36,8 @@ function initAutocomplete() {
 
 function onPlaceChanged (addy){
 
-    var auto = window['autocomplete_'+addy]
-    var el_id = 'id-google-address-'+addy
+    var auto = window['autocomplete_'+ addy]
+    var el_id = 'id-google-address-'+ addy
     var lat_id = 'id-lat-' + addy
     var long_id = 'id-long-' + addy
 
