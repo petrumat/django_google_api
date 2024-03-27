@@ -55,14 +55,14 @@ class AjaxFormMixin(object):
 
 	def form_invalid(self, form):
 		response = super(AjaxFormMixin, self).form_invalid(form)
-		if self.request.is_ajax():
+		if is_ajax(self.request):
 			message = FormErrors(form)
 			return JsonResponse({'result':'Error', 'message': message})
 		return response
 
 	def form_valid(self, form):
 		response = super(AjaxFormMixin, self).form_valid(form)
-		if self.request.is_ajax():
+		if is_ajax(self.request):
 			form.save()
 			return JsonResponse({'result':'Success', 'message': ""})
 		return response
@@ -139,4 +139,8 @@ def Directions(*args, **kwargs):
 		"distance": f"{round(distance/1000, 2)} Km",
 		"duration": format_timespan(duration),
 		"route": route_list
-		}
+	}
+
+
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
