@@ -1,5 +1,5 @@
 """
-ASGI config for did_django_google_api_tutorial project.
+ASGI config for tutorial project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 

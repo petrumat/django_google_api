@@ -17,7 +17,7 @@ from tutorial.mixins import(
 	)
 
 
-from ..users_tutorial.forms import (
+from .forms import (
 	UserForm,
 	UserProfileForm,
 	AuthForm,

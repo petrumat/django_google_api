@@ -3,6 +3,12 @@ reCAPTCHA details.txt
 .vscode/settings.json
 main/__pycache__/
 main/migrations/__pycache__/
+main_tutorial/__pycache__/
+main_tutorial/migrations/__pycache__/
 tutorial/__pycache__/
 users/__pycache__/
 users/migrations/__pycache__/
+users_tutorial/__pycache__/
+users_tutorial/migrations/__pycache__/
+
+cpython-311.pyc
