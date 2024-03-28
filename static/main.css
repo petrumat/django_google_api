@@ -6,12 +6,12 @@ body {
   margin: 0;
 }
 
-body, html, .map-container {
+body, html {
   height: 100%;
 }
 
 #map-route {
-  height: 75%;
+  height: 80%;
   }
 
 .logo {
@@ -25,6 +25,7 @@ ul.sidenav {
   margin: 0;
   padding: 0;
   width: 25%;
+  max-width: 100px;
   background-color: #f1f1f1;
   position: fixed;
   height: 100%;
@@ -49,8 +50,7 @@ ul.sidenav li a:hover:not(.active) {
 }
 
 .div-container {
-
-  margin-left: 25%;
+  margin-left: 100px;
   padding: 1px 16px;
   height: 1000px;
 }
@@ -58,6 +58,7 @@ ul.sidenav li a:hover:not(.active) {
 @media screen and (max-width: 900px) {
   ul.sidenav {
     width: 100%;
+    max-width: 100%;
     height: auto;
     position: relative;
   }
