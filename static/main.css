@@ -12,7 +12,11 @@ body, html {
 
 #map-route {
   height: 80%;
-  }
+}
+
+#traffic_info {
+  height: 80%;
+}
 
 .logo {
   width: 150px;
