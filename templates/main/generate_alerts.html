@@ -11,10 +11,10 @@
 {% block content %}
 
 <!-- Header of the page -->
-<h3 id="map">Traffic Info</h3>
+<h3 id="map">Generate Alerts</h3>
 
 <!-- The map -->
-<div id="traffic_info"></div>
+<div id="generate_alerts"></div>
 
 {% endblock %}
 
@@ -28,33 +28,22 @@
     var markers = [
         {
             id: 1,
-            lat: 45.0000000,
-            lng: 26.0000000,
+            lat: 44.0000000,
+            lng: 25.0000000,
             content: "Just some content 1",
             ariaLabel: "Just an ariaLabel 1",
-            icon: "good",
             title: "Just a title 1"
-        },
-        {
-            id: 2,
-            lat: 46.0000000,
-            lng: 27.0000000,
-            content: "Just some content 2",
-            ariaLabel: "Just an ariaLabel 2",
-            icon: "bad",
-            title: "Just a title 2"
-        },
+        }
         // Add more marker objects here as needed
     ];
 
 </script>
 
-<script src="{% static 'traffic_info.js' %}"></script>
+<script src="{% static 'generate_alerts.js' %}"></script>
 
 <script src="{% static 'buttons/recenter.js' %}"></script>
 <script src="{% static 'map/markers.js' %}"></script>
 
-<img id="hiddenTrafficInfoGoodIcon" src="{% static '/map/markers/trafficInfoGood.png' %}">
-<img id="hiddenTrafficInfoBadIcon" src="{% static '/map/markers/trafficInfoBad.png' %}">
+<img id="hiddenGenerateAlertIcon" src="{% static '/map/markers/generateAlert.png' %}">
 
 {% endblock %}

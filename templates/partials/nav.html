@@ -1,10 +1,17 @@
 
 {% if request.user.is_authenticated %}
 <ul class="sidenav">
+  
   {% if "traffic_info" in request.path %}
   <li><a class="active" href="{% url 'main:traffic_info' %}">Traffic Info</a></li>
   {% else %}
   <li><a href="{% url 'main:traffic_info' %}">Traffic Info</a></li>
+  {% endif %}
+
+  {% if "generate_alerts" in request.path %}
+  <li><a class="active" href="{% url 'main:generate_alerts' %}">Generate Alerts</a></li>
+  {% else %}
+  <li><a href="{% url 'main:generate_alerts' %}">Generate Alerts</a></li>
   {% endif %}
 
   {% if "route" in request.path %}

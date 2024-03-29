@@ -78,3 +78,41 @@ def traffic_info(request):
 	}
 
 	return render(request, 'main/traffic_info.html', context)
+
+
+'''
+Generate alerts view 
+'''
+def generate_alerts(request):
+
+	context = {
+		"google_api_key": settings.GOOGLE_API_KEY,
+		"base_country": settings.BASE_COUNTRY,
+	}
+
+	return render(request, 'main/generate_alerts.html', context)
+
+
+'''
+Traffic lights view 
+'''
+# def traffic_lights(request):
+
+# 	context = {
+# 		"google_api_key": settings.GOOGLE_API_KEY,
+# 		"base_country": settings.BASE_COUNTRY,
+# 	}
+
+# 	return render(request, 'main/traffic_lights.html', context)
+
+'''
+Generate reports view 
+'''
+# def generate_reports(request):
+
+# 	context = {
+# 		"google_api_key": settings.GOOGLE_API_KEY,
+# 		"base_country": settings.BASE_COUNTRY,
+# 	}
+
+# 	return render(request, 'main/generate_reports.html', context)
