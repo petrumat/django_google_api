@@ -3,7 +3,7 @@ $.getScript( "https://maps.googleapis.com/maps/api/js?key=" + google_api_key + "
     window.addEventListener("load", initMap);
 });
 
-const centerBucharest = { lat: 44.42713, lng: 26.1024375 }
+const centerBucharest = { lat: 44.4268, lng: 26.10246 }
 let map;
 
 function initMap() {
@@ -14,24 +14,7 @@ function initMap() {
 
   displayMarkers();
 
-  // Create a custom control div to hold the buttons
-  var customControlDiv = document.createElement('div');
-
-  // Create a button for recenter the map to Bucharest
-  var recenterButton = document.createElement('button');
-  recenterButton.textContent = 'Recenter Map';
-  recenterButton.classList.add('recenter-button'); // CSS
-
-  // Add click event listener for the recenter button
-  recenterButton.addEventListener('click', function() {
-    map.setCenter(centerBucharest);
-  });
-
-  // Append the recenter button to the custom control div
-  customControlDiv.appendChild(recenterButton);
-
-  // Add the custom control to the map
-  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(customControlDiv);
+  createButtons();
 }
 
 function displayMarkers() {
@@ -57,3 +40,16 @@ function displayMarkers() {
   });
 }
 
+function createButtons() {
+  // Create a custom control div to hold the buttons
+  var customControlDiv = document.createElement('div');
+
+  // Create a button for recenter the map to Bucharest
+  var recenterButton = createRecenterButton();
+
+  // Append the recenter button to the custom control div
+  customControlDiv.appendChild(recenterButton);
+
+  // Add the custom control to the map
+  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(customControlDiv);
+}
