@@ -21,8 +21,10 @@
 
 {% block content %}
 
+<!-- Header of the page -->
 <h3 id="map">Traffic Info</h3>
 
+<!-- The map -->
 <div id="traffic_info"></div>
 
 {% endblock %}
@@ -34,9 +36,29 @@
 
     var google_api_key = "{{ google_api_key | safe }}";
 
-  </script>
+    var markers = [
+        {
+            id: 1,
+            lat: 45.0000000,
+            lng: 26.0000000,
+            content: "Just some content 1",
+            ariaLabel: "Just an ariaLabel 1",
+            title: "Just a title 1"
+        },
+        {
+            id: 2,
+            lat: 46.0000000,
+            lng: 27.0000000,
+            content: "Just some content 2",
+            ariaLabel: "Just an ariaLabel 2",
+            title: "Just a title 2"
+        },
+        // Add more marker objects here as needed
+    ];
 
-  <script src="{% static 'traffic_info.js' %}"></script>
+</script>
+
+<script src="{% static 'traffic_info.js' %}"></script>
 
 
 {% endblock %}
