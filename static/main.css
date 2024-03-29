@@ -14,9 +14,46 @@ body, html {
   height: 80%;
 }
 
+
 #traffic_info {
   height: 95%;
 }
+
+#hiddenTrafficInfoGoodIcon {
+  display: None;
+}
+
+#hiddenTrafficInfoBadIcon {
+  display: None;
+}
+
+
+#generate_alert {
+  height: 95%;
+}
+
+#hiddenGenerateAlertIcon {
+  display: None;
+}
+
+
+#traffic_light {
+  height: 95%;
+}
+
+#hiddenTrafficLightIcon {
+  display: None;
+}
+
+
+#generate_report {
+  height: 95%;
+}
+
+#hiddenGenerateReportIcon {
+  display: None;
+}
+
 
 .logo {
   width: 150px;

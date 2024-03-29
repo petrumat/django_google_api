@@ -18,8 +18,24 @@ function initMap() {
 }
 
 function displayMarkers() {
+  // Generate traffic info icons
+  const trafficInfoGoodIcon = createTrafficInfoGoodIcon();
+  const trafficInfoBadIcon = createTrafficInfoBadIcon();
+
   // Iterate over the markers array
   markers.forEach((markerData, index) => {
+    // Determine icon style
+    switch(markerData.icon) {
+      case "good":
+        markerIcon = trafficInfoGoodIcon
+        break;
+      case "bad":
+        markerIcon = trafficInfoBadIcon
+        break;
+      default:
+        console.log('Unknown icon in traffic_info.js');
+    }
+
     // Create a new InfoWindow instance for each marker
     const infoWindow = new google.maps.InfoWindow({
         content: markerData.content,
@@ -30,7 +46,10 @@ function displayMarkers() {
     const marker = new google.maps.Marker({
         position: { lat: markerData.lat, lng: markerData.lng },
         map,
+        icon: markerIcon,
+        // label: index.toString(),
         title: markerData.title,
+        // animation: google.maps.Animation.BOUNCE,
     });
 
     // Add a click event listener to the marker
