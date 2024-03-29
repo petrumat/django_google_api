@@ -19,8 +19,8 @@ function initMap() {
 
 function displayMarkers() {
   // Generate traffic info icons
-  const trafficInfoGoodIcon = createTrafficInfoGoodIcon();
-  const trafficInfoBadIcon = createTrafficInfoBadIcon();
+  const trafficInfoGoodIcon = createIcon('hiddenTrafficInfoGoodIcon');
+  const trafficInfoBadIcon = createIcon('hiddenTrafficInfoBadIcon');
 
   // Iterate over the markers array
   markers.forEach((markerData, index) => {
@@ -36,9 +36,13 @@ function displayMarkers() {
         console.log('Unknown icon in traffic_info.js');
     }
 
+    // Build the marker content
+    var contentString = createContentTrafficInfo(markerData);
+
     // Create a new InfoWindow instance for each marker
     const infoWindow = new google.maps.InfoWindow({
-        content: markerData.content,
+        // content: markerData.content,
+        content: contentString,
         ariaLabel: markerData.ariaLabel,
     });
     
