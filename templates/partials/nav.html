@@ -8,10 +8,22 @@
   <li><a href="{% url 'main:traffic_info' %}">Traffic Info</a></li>
   {% endif %}
 
+  {% if "traffic_lights" in request.path %}
+  <li><a class="active" href="{% url 'main:traffic_lights' %}">Traffic Lights</a></li>
+  {% else %}
+  <li><a href="{% url 'main:traffic_lights' %}">Traffic Lights</a></li>
+  {% endif %}
+  
   {% if "generate_alerts" in request.path %}
   <li><a class="active" href="{% url 'main:generate_alerts' %}">Generate Alerts</a></li>
   {% else %}
   <li><a href="{% url 'main:generate_alerts' %}">Generate Alerts</a></li>
+  {% endif %}
+
+  {% if "generate_reports" in request.path %}
+  <li><a class="active" href="{% url 'main:generate_reports' %}">Generate Reports</a></li>
+  {% else %}
+  <li><a href="{% url 'main:generate_reports' %}">Generate Reports</a></li>
   {% endif %}
 
   {% if "route" in request.path %}

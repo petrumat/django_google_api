@@ -96,23 +96,23 @@ def generate_alerts(request):
 '''
 Traffic lights view 
 '''
-# def traffic_lights(request):
+def traffic_lights(request):
 
-# 	context = {
-# 		"google_api_key": settings.GOOGLE_API_KEY,
-# 		"base_country": settings.BASE_COUNTRY,
-# 	}
+	context = {
+		"google_api_key": settings.GOOGLE_API_KEY,
+		"base_country": settings.BASE_COUNTRY,
+	}
 
-# 	return render(request, 'main/traffic_lights.html', context)
+	return render(request, 'main/traffic_lights.html', context)
 
 '''
 Generate reports view 
 '''
-# def generate_reports(request):
+def generate_reports(request):
 
-# 	context = {
-# 		"google_api_key": settings.GOOGLE_API_KEY,
-# 		"base_country": settings.BASE_COUNTRY,
-# 	}
+	context = {
+		"google_api_key": settings.GOOGLE_API_KEY,
+		"base_country": settings.BASE_COUNTRY,
+	}
 
-# 	return render(request, 'main/generate_reports.html', context)
+	return render(request, 'main/generate_reports.html', context)

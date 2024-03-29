@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block extend_head %}
+
+
+{% endblock %}
+
+
+{% block content %}
+
+<!-- Header of the page -->
+<h3 id="map">Generate Reports</h3>
+
+<!-- The map -->
+<div id="generate_reports"></div>
+
+{% endblock %}
+
+{% block extend_footer %}
+
+
+<script type="text/javascript">
+
+    var google_api_key = "{{ google_api_key | safe }}";
+
+    var markers = [
+        {
+            id: 1,
+            lat: 44.0000000,
+            lng: 25.0000000,
+            content: "Just some content 1",
+            ariaLabel: "Just an ariaLabel 1",
+            title: "Just a title 1"
+        }
+        // Add more marker objects here as needed
+    ];
+
+</script>
+
+<script src="{% static 'generate_reports.js' %}"></script>
+
+<script src="{% static 'buttons/recenter.js' %}"></script>
+<script src="{% static 'map/markers.js' %}"></script>
+
+<img id="hiddenGenerateAlertIcon" src="{% static '/map/markers/generateReport.png' %}">
+
+{% endblock %}
