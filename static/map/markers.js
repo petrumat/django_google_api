@@ -9,59 +9,45 @@ function createIcon(elementId) {
     return icon;
 }
 
+
 function createContentTrafficInfo(markerData) {
     var contentString =
       "<div>" +
       "<strong>Geolocation:</strong> [" + markerData.lat + ", " + markerData.lng + "]<br>" +
       "<strong>Zone:</strong> " + markerData.zone + "<br>" +
       "<strong>Density:</strong> " + markerData.density + "<br>" +
-      "<strong>Speed:</strong> " + markerData.med_speed + "<br>";
+      "<strong>Speed:</strong> " + markerData.med_speed + "<br><br>";
 
-    contentString = contentString + "<strong>Lights:</strong> "
-    if (markerData.lights === false) {
-        contentString = contentString + "✔" + "<br>";
-    } else {
-        contentString = contentString + "❌" + "<br>";
-    }
-
-    contentString = contentString + "<strong>Cameras:</strong> "
-    if (markerData.cameras === false) {
-        contentString = contentString + "✔" + "<br>";
-    } else {
-        contentString = contentString + "❌" + "<br>";
-    }
-
-    contentString = contentString + "<strong>Signs:</strong> "
-    if (markerData.signs === false) {
-        contentString = contentString + "✔" + "<br>";
-    } else {
-        contentString = contentString + "❌" + "<br>";
-    }
-
-    contentString = contentString + "<strong>Incidents:</strong> "
-    if (markerData.incidents === false) {
-        contentString = contentString + "✔" + "<br>";
-    } else {
-        contentString = contentString + "❌" + "<br>";
-    }
-
-    contentString = contentString + "<strong>Accidents:</strong> "
-    if (markerData.accidents === false) {
-        contentString = contentString + "✔" + "<br>";
-    } else {
-        contentString = contentString + "❌" + "<br>";
-    }
-
-    if (markerData.alerts === false) {
-      contentString = contentString + "<br>" + "<strong>No Alerts</strong>" + "</div>";
-    } else {
-      contentString = contentString + "<br>" +
-      "<strong>Reported Incident:</strong> " + markerData.alert_content + "</div>";
-    }
-
+    contentString = contentString + appendString(markerData.lights, "Traffic Lights");
+    contentString = contentString + appendString(markerData.cameras, "Traffic Cameras");
+    contentString = contentString + appendString(markerData.signs, "Traffic Signs");
+    contentString = contentString + appendString(markerData.incidents, "Traffic Incidents");
+    contentString = contentString + appendString(markerData.accidents, "Traffic Accidents");
+    contentString = contentString + endString(markerData.incidents, markerData.accidents, markerData.alert_content);
+    
     return contentString;
 }
 
+function colorString(color, mark, string) {
+    return "<strong style='color: " + color + ";'>" + mark + " " + string + "</strong><br>"
+}
+
+function appendString(condition, string) {
+    if (condition === true)
+        return colorString("red", "❌", string);
+    
+    return colorString("green", "✔", string);
+}
+
+function endString(incidents, accidents, string) {
+    if (accidents === false)
+        if (incidents === false)
+            return "<br>" + colorString("green", "", "No Alerts") + "</div>";
+        else
+            return "<br>" + colorString("orange", "", "Reported Incident: ") + colorString("black", "", string) + "</div>";
+    else
+        return "<br>" + colorString("red", "", "Reported Incident: ") + colorString("black", "", string) + "</div>";
+}
 
 
 function createGenerateAlertIcon() {
@@ -75,6 +61,7 @@ function createGenerateAlertIcon() {
     return generateAlertIcon;
 }
 
+
 function createTrafficLightIcon() {
     var trafficLightIcon = {
         url: document.getElementById('hiddenTrafficLightIcon').src,
@@ -85,6 +72,7 @@ function createTrafficLightIcon() {
     
     return trafficLightIcon;
 }
+
 
 function createGenerateReportIcon() {
     var generateReportIcon = {
