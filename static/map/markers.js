@@ -52,7 +52,7 @@ function endString(incidents, accidents, string) {
 }
 
 
-// Traffic Light Map:
+// Traffic Lights Map:
 function createContentTrafficLight(markerData) {
     var content =
       "<div>" +
@@ -85,15 +85,9 @@ function appendError(string) {
 }
 
 
-function createGenerateAlertIcon() {
-    var generateAlertIcon = {
-        url: document.getElementById('hiddenGenerateAlertIcon').src,
-        scaledSize: new google.maps.Size(50, 50),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(25, 50)
-    };
-    
-    return generateAlertIcon;
+// Generate Alerts Map
+function createContentGenerateAlerts(markerData) {
+    return markerData.content;
 }
 
 

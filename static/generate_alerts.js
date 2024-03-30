@@ -19,14 +19,17 @@ function initMap() {
 
 function displayMarkers() {
   // Generate alert icon
-  const generateAlertIcon = createGenerateAlertIcon();
+  const generateAlertIcon = createIcon('hiddenGenerateAlertIcon');
 
   // Iterate over the markers array
   markers.forEach((markerData, index) => {
 
+    // Build the marker content
+    var contentString = createContentGenerateAlerts(markerData);
+
     // Create a new InfoWindow instance for each marker
     const infoWindow = new google.maps.InfoWindow({
-        content: markerData.content,
+        content: contentString,
         ariaLabel: markerData.ariaLabel,
     });
     
