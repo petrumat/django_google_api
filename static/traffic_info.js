@@ -41,7 +41,6 @@ function displayMarkers() {
 
     // Create a new InfoWindow instance for each marker
     const infoWindow = new google.maps.InfoWindow({
-        // content: markerData.content,
         content: contentString,
         ariaLabel: markerData.ariaLabel,
     });

@@ -28,19 +28,39 @@
     var markers = [
         {
             id: 1,
-            lat: 44.5000000,
-            lng: 24.5000000,
-            content: "Just some content 1",
-            ariaLabel: "Just an ariaLabel 1",
-            title: "Just a title 1"
+            lat: 44.0000000,
+            lng: 24.0000000,
+            zone: "Militari",
+            orientation: "NE",
+            functioning: false,
+            function_error: "Green Light Error",
+            program: "MANUAL",
+            time: {
+                red: 295,
+                yellow: 7,
+                green: 200
+            },
+            error: "Traffic Light Malfunction - Manual Control Only",
+            ariaLabel: "Militari Traffic Light Control",
+            title: "Militari Traffic Light Control"
         },
         {
             id: 2,
-            lat: 46.0000000,
-            lng: 27.0000000,
-            content: "Just some content 2",
-            ariaLabel: "Just an ariaLabel 2",
-            title: "Just a title 2"
+            lat: 44.5000000,
+            lng: 24.5000000,
+            zone: "Iancului",
+            orientation: "E",
+            functioning: true,
+            function_error: "",
+            program: "AUTO",
+            time: {
+                red: 240,
+                yellow: 7,
+                green: 500
+            },
+            error: "",
+            ariaLabel: "Iancului Traffic Light Control",
+            title: "Iancului Traffic Light Control"
         },
         // Add more marker objects here as needed
     ];

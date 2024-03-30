@@ -10,26 +10,28 @@ function createIcon(elementId) {
 }
 
 
+function colorString(color, mark, string) {
+    return "<strong style='color: " + color + ";'>" + mark + " " + string + "</strong><br>"
+}
+
+
+// Traffic Info Map:
 function createContentTrafficInfo(markerData) {
-    var contentString =
+    var content =
       "<div>" +
       "<strong>Geolocation:</strong> [" + markerData.lat + ", " + markerData.lng + "]<br>" +
       "<strong>Zone:</strong> " + markerData.zone + "<br>" +
       "<strong>Density:</strong> " + markerData.density + "<br>" +
       "<strong>Speed:</strong> " + markerData.med_speed + "<br><br>";
 
-    contentString = contentString + appendString(markerData.lights, "Traffic Lights");
-    contentString = contentString + appendString(markerData.cameras, "Traffic Cameras");
-    contentString = contentString + appendString(markerData.signs, "Traffic Signs");
-    contentString = contentString + appendString(markerData.incidents, "Traffic Incidents");
-    contentString = contentString + appendString(markerData.accidents, "Traffic Accidents");
-    contentString = contentString + endString(markerData.incidents, markerData.accidents, markerData.alert_content);
+      content = content + appendString(markerData.lights, "Traffic Lights");
+      content = content + appendString(markerData.cameras, "Traffic Cameras");
+      content = content + appendString(markerData.signs, "Traffic Signs");
+      content = content + appendString(markerData.incidents, "Traffic Incidents");
+      content = content + appendString(markerData.accidents, "Traffic Accidents");
+      content = content + endString(markerData.incidents, markerData.accidents, markerData.alert_content);
     
-    return contentString;
-}
-
-function colorString(color, mark, string) {
-    return "<strong style='color: " + color + ";'>" + mark + " " + string + "</strong><br>"
+    return content;
 }
 
 function appendString(condition, string) {
@@ -50,6 +52,39 @@ function endString(incidents, accidents, string) {
 }
 
 
+// Traffic Light Map:
+function createContentTrafficLight(markerData) {
+    var content =
+      "<div>" +
+      "<strong>Geolocation:</strong> [" + markerData.lat + ", " + markerData.lng + "]<br>" +
+      "<strong>Zone:</strong> " + markerData.zone + "<br>" +
+      "<strong>Orientation - </strong> " + markerData.orientation + "<br>" + "<strong>Function State - </strong>" + appendFunctionState(markerData.functioning, markerData.function_error) + "<strong>Program State - </strong>" + appendProgramState(markerData.program) + "<strong>Red - </strong>" + markerData.time.red + " s<br>" + "<strong>Yellow - </strong>" + markerData.time.yellow + " s<br>" + "<strong>Green - </strong>" + markerData.time.green + " s<br>" + appendError(markerData.error);
+    
+    return content;
+}
+
+function appendFunctionState(condition, string) {
+    if (condition === false)
+        return colorString("red", "", string);
+    
+    return colorString("green", "", "Normal");
+}
+
+function appendProgramState(string) {
+    if (string === "AUTO")
+        return colorString("green", "", string);
+    
+    return colorString("orange", "", string);
+}
+
+function appendError(string) {
+    if (string != "")
+        return colorString("red", "Error - ", string) + "</div>";
+    
+    return "</div>";
+}
+
+
 function createGenerateAlertIcon() {
     var generateAlertIcon = {
         url: document.getElementById('hiddenGenerateAlertIcon').src,
@@ -59,18 +94,6 @@ function createGenerateAlertIcon() {
     };
     
     return generateAlertIcon;
-}
-
-
-function createTrafficLightIcon() {
-    var trafficLightIcon = {
-        url: document.getElementById('hiddenTrafficLightIcon').src,
-        scaledSize: new google.maps.Size(50, 50),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(25, 50)
-    };
-    
-    return trafficLightIcon;
 }
 
 
