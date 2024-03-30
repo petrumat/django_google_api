@@ -41,7 +41,7 @@
             alerts: false,
             alert_content: "",
             ariaLabel: "Intersecție Apaca Traffic Data",
-            icon: "good",
+            icon: "green",
             title: "Intersecție Apaca Traffic Data"
         },
         {
@@ -59,7 +59,7 @@
             alert_content: "Car Accident",
             content: "Rahova Traffic Data",
             ariaLabel: "Rahova Traffic Data",
-            icon: "bad",
+            icon: "red",
             title: "Rahova Traffic Data"
         },
         {
@@ -77,7 +77,7 @@
             alert_content: "Road under Construction",
             content: "Pantelimon Traffic Data",
             ariaLabel: "Pantelimon Traffic Data",
-            icon: "bad",
+            icon: "red",
             title: "Pantelimon Traffic Data"
         },
         // Add more marker objects here as needed
@@ -90,7 +90,7 @@
 <script src="{% static 'buttons/recenter.js' %}"></script>
 <script src="{% static 'map/markers.js' %}"></script>
 
-<img id="hiddenTrafficInfoGoodIcon" src="{% static '/map/markers/trafficInfoGood.png' %}">
-<img id="hiddenTrafficInfoBadIcon" src="{% static '/map/markers/trafficInfoBad.png' %}">
+<img id="hiddenTrafficInfoGreenIcon" src="{% static '/map/markers/trafficInfoGreen.png' %}">
+<img id="hiddenTrafficInfoRedIcon" src="{% static '/map/markers/trafficInfoRed.png' %}">
 
 {% endblock %}

@@ -28,8 +28,8 @@
     var markers = [
         {
             id: 1,
-            lat: 44.0000000,
-            lng: 24.0000000,
+            lat: 44.433856997295756,
+            lng: 26.00598608604801,
             zone: "Militari",
             orientation: "NE",
             functioning: false,
@@ -46,8 +46,8 @@
         },
         {
             id: 2,
-            lat: 44.5000000,
-            lng: 24.5000000,
+            lat: 44.44129607879401,
+            lng: 26.1333761216978,
             zone: "Iancului",
             orientation: "E",
             functioning: true,
@@ -73,5 +73,7 @@
 <script src="{% static 'map/markers.js' %}"></script>
 
 <img id="hiddenTrafficLightIcon" src="{% static '/map/markers/trafficLight.png' %}">
+<img id="hiddenTrafficLightGreenIcon" src="{% static '/map/markers/trafficLightGreen.png' %}">
+<img id="hiddenTrafficLightRedIcon" src="{% static '/map/markers/trafficLightRed.png' %}">
 
 {% endblock %}

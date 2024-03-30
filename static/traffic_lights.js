@@ -18,11 +18,25 @@ function initMap() {
 }
 
 function displayMarkers() {
-  // Generate traffic light icon
+  // Generate traffic light icons
   const icon = createIcon('hiddenTrafficLightIcon');
-  
+  const iconGreen = createIcon('hiddenTrafficLightGreenIcon');
+  const iconRed = createIcon('hiddenTrafficLightRedIcon');
+
   // Iterate over the markers array
   markers.forEach((markerData, index) => {
+
+    // Determine icon style
+    switch(markerData.functioning) {
+      case true:
+        markerIcon = iconGreen
+        break;
+      case false:
+        markerIcon = iconRed
+        break;
+      default:
+        console.log('Unknown icon in traffic_lights.js');
+    }
 
     // Build the marker content
     var contentString = createContentTrafficLight(markerData);
@@ -37,7 +51,7 @@ function displayMarkers() {
     const marker = new google.maps.Marker({
         position: { lat: markerData.lat, lng: markerData.lng },
         map,
-        icon: icon,
+        icon: markerIcon,
         // label: index.toString(),
         title: markerData.title,
         // animation: google.maps.Animation.BOUNCE,

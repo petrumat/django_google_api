@@ -28,11 +28,10 @@ body, html {
   height: 95%;
 }
 
-#hiddenTrafficInfoGoodIcon {
+#hiddenTrafficInfoGreenIcon {
   display: None;
 }
-
-#hiddenTrafficInfoBadIcon {
+#hiddenTrafficInfoRedIcon {
   display: None;
 }
 
@@ -51,6 +50,12 @@ body, html {
 }
 
 #hiddenTrafficLightIcon {
+  display: None;
+}
+#hiddenTrafficLightGreenIcon {
+  display: None;
+}
+#hiddenTrafficLightRedIcon {
   display: None;
 }
 

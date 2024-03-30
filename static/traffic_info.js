@@ -19,18 +19,19 @@ function initMap() {
 
 function displayMarkers() {
   // Generate traffic info icons
-  const trafficInfoGoodIcon = createIcon('hiddenTrafficInfoGoodIcon');
-  const trafficInfoBadIcon = createIcon('hiddenTrafficInfoBadIcon');
+  const trafficInfoGreenIcon = createIcon('hiddenTrafficInfoGreenIcon');
+  const trafficInfoRedIcon = createIcon('hiddenTrafficInfoRedIcon');
 
   // Iterate over the markers array
   markers.forEach((markerData, index) => {
+    
     // Determine icon style
     switch(markerData.icon) {
-      case "good":
-        markerIcon = trafficInfoGoodIcon
+      case "green":
+        markerIcon = trafficInfoGreenIcon
         break;
-      case "bad":
-        markerIcon = trafficInfoBadIcon
+      case "red":
+        markerIcon = trafficInfoRedIcon
         break;
       default:
         console.log('Unknown icon in traffic_info.js');
