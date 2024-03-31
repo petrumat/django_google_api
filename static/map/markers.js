@@ -10,85 +10,119 @@ function createIcon(elementId) {
 }
 
 
+
+// General functions for building content strings
+function appendGeolocation(lat, lng) {
+    return "<strong>Geolocation:</strong> [" + lat + ", " + lng + "]<br>";
+}
+
+function appendString(tag, value) {
+    return "<strong>" + tag + "</strong> " + value + "<br>";
+}
+
 function colorString(color, mark, string) {
     return "<strong style='color: " + color + ";'>" + mark + " " + string + "</strong><br>"
 }
 
 
+
 // Traffic Info Map:
 function createContentTrafficInfo(markerData) {
-    var content =
-      "<div>" +
-      "<strong>Geolocation:</strong> [" + markerData.lat + ", " + markerData.lng + "]<br>" +
-      "<strong>Zone:</strong> " + markerData.zone + "<br>" +
-      "<strong>Density:</strong> " + markerData.density + "<br>" +
-      "<strong>Speed:</strong> " + markerData.med_speed + "<br><br>";
-
-      content = content + appendString(markerData.lights, "Traffic Lights");
-      content = content + appendString(markerData.cameras, "Traffic Cameras");
-      content = content + appendString(markerData.signs, "Traffic Signs");
-      content = content + appendString(markerData.incidents, "Traffic Incidents");
-      content = content + appendString(markerData.accidents, "Traffic Accidents");
-      content = content + endString(markerData.incidents, markerData.accidents, markerData.alert_content);
+    var content = "<div>" +
+        appendGeolocation(markerData.lat, markerData.lng) +
+        appendString("Zone:", markerData.zone) +
+        appendString("Density:", markerData.density) +
+        appendString("Speed:", markerData.med_speed) + "<br>" +
+        appendStringCondition(markerData.lights, "Traffic Lights") +
+        appendStringCondition(markerData.cameras, "Traffic Cameras") +
+        appendStringCondition(markerData.signs, "Traffic Signs") +
+        appendStringCondition(markerData.incidents, "Traffic Incidents") +
+        appendStringCondition(markerData.accidents, "Traffic Accidents") +
+        appendIncidents(markerData.incidents, markerData.accidents, markerData.alert_content) +
+        "</div>";
     
     return content;
 }
 
-function appendString(condition, string) {
+function appendStringCondition(condition, string) {
     if (condition === true)
         return colorString("red", "❌", string);
     
     return colorString("green", "✔", string);
 }
 
-function endString(incidents, accidents, string) {
+function appendIncidents(incidents, accidents, string) {
     if (accidents === false)
         if (incidents === false)
-            return "<br>" + colorString("green", "", "No Alerts") + "</div>";
+            return "<br>" + colorString("green", "", "No Alerts");
         else
-            return "<br>" + colorString("orange", "", "Reported Incident: ") + colorString("black", "", string) + "</div>";
+            return "<br>" + colorString("orange", "", "Reported Incident: ") + colorString("black", "", string);
     else
-        return "<br>" + colorString("red", "", "Reported Incident: ") + colorString("black", "", string) + "</div>";
+        return "<br>" + colorString("red", "", "Reported Incident: ") + colorString("black", "", string);
 }
+
 
 
 // Traffic Lights Map:
 function createContentTrafficLight(markerData) {
-    var content =
-      "<div>" +
-      "<strong>Geolocation:</strong> [" + markerData.lat + ", " + markerData.lng + "]<br>" +
-      "<strong>Zone:</strong> " + markerData.zone + "<br>" +
-      "<strong>Orientation - </strong> " + markerData.orientation + "<br>" + "<strong>Function State - </strong>" + appendFunctionState(markerData.functioning, markerData.function_error) + "<strong>Program State - </strong>" + appendProgramState(markerData.program) + "<strong>Red - </strong>" + markerData.time.red + " s<br>" + "<strong>Yellow - </strong>" + markerData.time.yellow + " s<br>" + "<strong>Green - </strong>" + markerData.time.green + " s<br>" + appendError(markerData.error);
+    var content = "<div>" +
+        appendGeolocation(markerData.lat, markerData.lng) +
+        appendString("Zone:", markerData.zone) +
+        appendString("Orientation -", markerData.orientation) +
+        appendFunctionState(markerData.functioning, markerData.function_error) +
+        appendProgramState(markerData.program) +
+        appendColorTime("Red", markerData.time.yellow) +
+        appendColorTime("Yellow", markerData.time.yellow) +
+        appendColorTime("Green", markerData.time.green) +
+        appendError(markerData.error) +
+        "</div>";
     
     return content;
 }
 
 function appendFunctionState(condition, string) {
-    if (condition === false)
-        return colorString("red", "", string);
+    result = "<strong>Function State - </strong>";
     
-    return colorString("green", "", "Normal");
+    if (condition === false)
+        return result + colorString("red", "", string);
+    
+    return result + colorString("green", "", "Normal");
 }
 
 function appendProgramState(string) {
+    result = "<strong>Program State - </strong>";
+
     if (string === "AUTO")
-        return colorString("green", "", string);
+        return result + colorString("green", "", string);
     
-    return colorString("orange", "", string);
+    return result + colorString("orange", "", string);
+}
+
+function appendColorTime(color, time) {
+    return "<strong>" + color + " - </strong>" + time + " s<br>";
 }
 
 function appendError(string) {
     if (string != "")
-        return colorString("red", "Error - ", string) + "</div>";
+        return colorString("red", "Error - ", string);
     
-    return "</div>";
+    return "";
 }
+
 
 
 // Generate Alerts Map
 function createContentGenerateAlerts(markerData) {
-    return markerData.content;
+    var content = appendGeolocation(markerData.lat, markerData.lng) +
+        appendString("Zone:", markerData.zone) +
+        appendString("Recommended Speed:", markerData.speed) +
+        colorString("orange", "", markerData.alert) +
+        "</div>";
+
+    return content;
 }
+
+
 
 
 function createGenerateReportIcon() {
