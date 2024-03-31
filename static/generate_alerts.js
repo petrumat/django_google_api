@@ -21,7 +21,7 @@ function initMap() {
 
 function displayMarkers() {
   // Generate alert icon
-  const generateAlertIcon = createIcon('hiddenGenerateAlertIcon');
+  const icon = createIcon('hiddenGenerateAlertIcon');
 
   // Iterate over the markers array
   markers.forEach((markerData, index) => {
@@ -40,7 +40,7 @@ function displayMarkers() {
     const marker = new google.maps.Marker({
         position: { lat: markerData.lat, lng: markerData.lng },
         map,
-        icon: generateAlertIcon,
+        icon: icon,
         // label: index.toString(),
         title: markerData.title,
         // animation: google.maps.Animation.BOUNCE,

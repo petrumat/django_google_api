@@ -24,6 +24,9 @@ function colorString(color, mark, string) {
     return "<strong style='color: " + color + ";'>" + mark + " " + string + "</strong><br>"
 }
 
+function appendHref(prefix, text, link, suffix) {
+    return "<strong>" + prefix + "<a href=" + link + ">" + text + "</a>" + suffix + "</strong><br>";
+}
 
 
 // Traffic Info Map:
@@ -130,13 +133,12 @@ function createContentGenerateAlerts(markerData) {
 
 
 // Generate Reports Map
-function createGenerateReportIcon() {
-    var generateReportIcon = {
-        url: document.getElementById('hiddenGenerateReportIcon').src,
-        scaledSize: new google.maps.Size(50, 50),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(25, 50)
-    };
+function createContentGenerateReports(markerData) {
+    var content = "<div>" +
+        appendGeolocation(markerData.lat, markerData.lng) +
+        appendString("Zone:", markerData.zone) +
+        appendHref("", "Click to see report", markerData.link, "") +
+        "</div>";
 
-    return generateReportIcon;
+    return content;
 }

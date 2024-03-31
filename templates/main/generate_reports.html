@@ -28,12 +28,34 @@
     var markers = [
         {
             id: 1,
-            lat: 44.0000000,
-            lng: 25.0000000,
-            content: "Just some content 1",
-            ariaLabel: "Just an ariaLabel 1",
-            title: "Just a title 1"
-        }
+            lat: 44.42064644862191,
+            lng: 26.034359594211946,
+            zone: "Drumul Taberei",
+            link: "traffic_info",
+            content: "Drumul Taberei Report",
+            ariaLabel: "Drumul Taberei Report",
+            title: "Drumul Taberei Report"
+        },
+        {
+            id: 2,
+            lat: 44.467405932777275,
+            lng: 26.078040004656334,
+            zone: "Arcul de Triumf",
+            link: "generate_alerts",
+            content: "Arcul de Triumf Report",
+            ariaLabel: "Arcul de Triumf Report",
+            title: "Arcul de Triumf Report"
+        },
+        {
+            id: 3,
+            lat: 44.41302615591946,
+            lng: 26.163882495047016,
+            zone: "Titan",
+            link: "traffic_lights",
+            content: "Titan Report",
+            ariaLabel: "Titan Report",
+            title: "Titan Report"
+        },
         // Add more marker objects here as needed
     ];
 
@@ -41,9 +63,11 @@
 
 <script src="{% static 'generate_reports.js' %}"></script>
 
+<script src="{% static 'buttons/closeInfoWindows.js' %}"></script>
 <script src="{% static 'buttons/recenter.js' %}"></script>
+
 <script src="{% static 'map/markers.js' %}"></script>
 
-<img id="hiddenGenerateAlertIcon" src="{% static '/map/markers/generateReport.png' %}">
+<img id="hiddenGenerateReportIcon" src="{% static '/map/markers/generateReport.png' %}">
 
 {% endblock %}
