@@ -72,10 +72,10 @@ function createButtons() {
   var customControlDiv = document.createElement('div');
 
   // Create a button for toggling circle visibility on map
-  var toggleCirclesVisibilityButton = createToggleCirclesVisibilityButton();
+  var toggleAreaVisibilityButton = createToggleAreaVisibilityButton();
 
   // Append the recenter button to the custom control div
-  customControlDiv.appendChild(toggleCirclesVisibilityButton);
+  customControlDiv.appendChild(toggleAreaVisibilityButton);
 
   // Create a button for recenter the map to Bucharest
   var recenterButton = createRecenterButton();
