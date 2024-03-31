@@ -73,11 +73,11 @@ function createButtons() {
   // Create a custom control div to hold the buttons
   var customControlDiv = document.createElement('div');
 
-  var closeInfoWindowsButton = createCloseInfoWindowsButton();
-  customControlDiv.appendChild(closeInfoWindowsButton);
-
   var toggleAreaVisibilityButton = createToggleAreaVisibilityButton();
   customControlDiv.appendChild(toggleAreaVisibilityButton);
+
+  var closeInfoWindowsButton = createCloseInfoWindowsButton();
+  customControlDiv.appendChild(closeInfoWindowsButton);
 
   var recenterButton = createRecenterButton();
   customControlDiv.appendChild(recenterButton);
