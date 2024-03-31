@@ -379,7 +379,7 @@ input:hover,
   font-family: Roboto, Arial, sans-serif;
   font-size: 16px;
   line-height: 38px;
-  margin: 10px 10px 0px;
+  margin: 10px 10px 0px 0px;  /* top, right, bottom, left */
   padding: 0 5px;
   text-align: center;
 }

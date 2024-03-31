@@ -5,6 +5,7 @@ $.getScript( "https://maps.googleapis.com/maps/api/js?key=" + google_api_key + "
 
 const centerBucharest = { lat: 44.4268, lng: 26.10246 }
 let map;
+let infoWindows = [];
 let circles = [];
 
 function initMap() {
@@ -33,6 +34,7 @@ function displayMarkers() {
         content: contentString,
         ariaLabel: markerData.ariaLabel,
     });
+    infoWindows.push(infoWindow);
     
     // Create a marker and attach the info window to it
     const marker = new google.maps.Marker({
@@ -71,16 +73,13 @@ function createButtons() {
   // Create a custom control div to hold the buttons
   var customControlDiv = document.createElement('div');
 
-  // Create a button for toggling circle visibility on map
-  var toggleAreaVisibilityButton = createToggleAreaVisibilityButton();
+  var closeInfoWindowsButton = createCloseInfoWindowsButton();
+  customControlDiv.appendChild(closeInfoWindowsButton);
 
-  // Append the recenter button to the custom control div
+  var toggleAreaVisibilityButton = createToggleAreaVisibilityButton();
   customControlDiv.appendChild(toggleAreaVisibilityButton);
 
-  // Create a button for recenter the map to Bucharest
   var recenterButton = createRecenterButton();
-
-  // Append the recenter button to the custom control div
   customControlDiv.appendChild(recenterButton);
 
   // Add the custom control to the map
