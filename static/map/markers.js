@@ -113,7 +113,12 @@ function appendError(string) {
 
 // Generate Alerts Map
 function createContentGenerateAlerts(markerData) {
-    var content = appendGeolocation(markerData.lat, markerData.lng) +
+    var content = '<div style="display: flex;">' +
+        '<div style="width: 20%; padding-right: 10px; display: flex; align-items: center; justify-content: center; font-size: 3em;">' +
+        '⚠️' +
+        '</div>' +
+        '<div style="width: 80%;">' +
+        appendGeolocation(markerData.lat, markerData.lng) +
         appendString("Zone:", markerData.zone) +
         appendString("Recommended Speed:", markerData.speed) +
         colorString("orange", "", markerData.alert) +
@@ -124,7 +129,7 @@ function createContentGenerateAlerts(markerData) {
 
 
 
-
+// Generate Reports Map
 function createGenerateReportIcon() {
     var generateReportIcon = {
         url: document.getElementById('hiddenGenerateReportIcon').src,
