@@ -6,6 +6,7 @@ $.getScript( "https://maps.googleapis.com/maps/api/js?key=" + google_api_key + "
 const centerBucharest = { lat: 44.4268, lng: 26.10246 }
 let map;
 let searchBox;
+let trafficLayer;
 let infoWindows = [];
 
 function initMap() {
@@ -20,6 +21,7 @@ function initMap() {
 
   displayMarkers();
 
+  trafficLayer = new google.maps.TrafficLayer();
   createButtons();
 }
 
@@ -66,6 +68,9 @@ function createButtons() {
 
   var recenterButton = createRecenterButton();
   customControlDiv.appendChild(recenterButton);
+
+  var toggleTrafficLayerButton = createToggleTrafficLayerButton();
+  customControlDiv.appendChild(toggleTrafficLayerButton);
 
   // Add the custom control to the map
   map.controls[google.maps.ControlPosition.TOP_RIGHT].push(customControlDiv);
