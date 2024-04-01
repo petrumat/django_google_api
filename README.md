@@ -1,23 +1,16 @@
-# did_django_google_api_tutorial
-Django project that uses Googles APIs to auto populate fields, display maps and routes for multiple waypoints
+# started from did_django_google_api_tutorial
+Django project that uses Google APIs to auto populate search input boxes, display maps, custom markers and info windows, ...
 
 1) cd to development directory
-2) mkvirtualenv did_django_google_api_tutorial
-3) mkdir did_django_google_api_tutorial
+2) mkvirtualenv django_google_api
+3) mkdir django_google_api
 4) clone repository to new directory
 5) pip install -r requirements.txt
-6) Create and update settings.ini with your email API information
-
-GOOGLE_API_KEY = ""
-
-RECAPTCHA_PUBLIC_KEY = ""
-
-RECAPTCHA_PRIVATE_KEY = ""
-
+6) create and update .env file based on .env-template format
 7) python manage.py makemigrations
 8) python manage.py migrate
 9) python manage.py runserver
-10) https://localhost:8000 - Bob's your uncle!! 
+10) https://localhost:8000 => home page
 
 Note: 
 

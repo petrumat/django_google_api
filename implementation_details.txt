@@ -1,0 +1,13 @@
+Issues:
+1. Map search box not showing search suggestions (search autocomplete) while in full screen map mode:
+    It seems like you've correctly created the search box and attached it to the map controls. However, when the map is in full-screen mode, the suggestions from the SearchBox are not displayed.
+
+    This behavior might occur because when the map is in full-screen mode, it's treated as an overlay and some elements might not be rendered properly, including the suggestions dropdown from the SearchBox.
+
+    Unfortunately, there might not be a straightforward solution to this issue due to the limitations of the Google Maps API in full-screen mode. One workaround could be to handle the suggestions manually by creating your own UI elements to display the suggestions based on the input text. This would involve intercepting the input text changes and making requests to the Places API to retrieve suggestions.
+
+    Another approach could be to detect when the map enters full-screen mode and adjust the styling or behavior of the search box accordingly. However, this might require some experimentation and might not be a perfect solution.
+
+    Overall, displaying suggestions from the SearchBox in full-screen mode might be challenging due to the limitations of the API in that context. You may need to explore alternative solutions or workarounds to achieve the desired functionality.
+
+2.
