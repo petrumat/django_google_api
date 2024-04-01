@@ -12,6 +12,7 @@
 
 <!-- Header of the page -->
 <h3 id="map">Traffic Info</h3>
+<input id="search-input" type="text" placeholder="Search for a location...">
 
 <!-- The map -->
 <div id="traffic_info"></div>
@@ -24,6 +25,7 @@
 <script type="text/javascript">
 
     var google_api_key = "{{ google_api_key | safe }}";
+    var base_country = "{{base_country|safe}}";
 
     var markers = [
         {

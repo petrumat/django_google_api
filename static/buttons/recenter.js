@@ -7,6 +7,7 @@ function createRecenterButton() {
     // Add click event listener for the recenter button
     button.addEventListener('click', function() {
         map.setCenter(centerBucharest);
+        map.setZoom(12);
     });
 
     // Return the created button element
