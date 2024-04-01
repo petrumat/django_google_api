@@ -401,3 +401,10 @@ input:hover,
   padding: 0 5px;
   text-align: center;
 }
+
+/* Hide the label when screen width is less than 900px */
+@media screen and (max-width: 900px) {
+  .map-label {
+    display: none;
+  }
+}

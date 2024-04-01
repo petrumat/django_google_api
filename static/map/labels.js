@@ -14,10 +14,10 @@ function createMapLabel(textContent) {
     }
 
     // Toggle visibility initially
-    toggleVisibility();
+    // toggleVisibility();
 
     // Add event listener to toggle visibility on map resize
-    google.maps.event.addDomListener(window, 'resize', toggleVisibility);
+    // google.maps.event.addDomListener(window, 'resize', toggleVisibility);
 
     // Return the created button element
     return button;

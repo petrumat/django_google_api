@@ -13,6 +13,8 @@ function initMap() {
       center: centerBucharest
   });
 
+  createLabel('Traffic Info Map');
+
   displayMarkers();
 
   createButtons();
@@ -77,4 +79,15 @@ function createButtons() {
 
   // Add the custom control to the map
   map.controls[google.maps.ControlPosition.TOP_RIGHT].push(customControlDiv);
+}
+
+function createLabel(textContent) {
+  // Create a custom control div to hold the buttons
+  var customLabelDiv = document.createElement('div');
+
+  var label = createMapLabel(textContent);
+  customLabelDiv.appendChild(label);
+
+  // Add the custom control to the map
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(customLabelDiv);
 }
