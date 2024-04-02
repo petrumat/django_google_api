@@ -22,7 +22,7 @@ function ShowAlert(title, message, type, redirect){
           progressBar: true,
           newestOnTop: true,
           rtl: $("body").attr("dir") === "rtl" || $("html").attr("dir") === "rtl",
-          timeOut: 7500,
+          timeOut: 1000,
           onHidden: function () {
             window.location.assign(redirect);
           }
@@ -35,7 +35,7 @@ function ShowAlert(title, message, type, redirect){
           progressBar: true,
           newestOnTop: true,
           rtl: $("body").attr("dir") === "rtl" || $("html").attr("dir") === "rtl",
-          timeOut: 7500,
+          timeOut: 1000,
 
       });
 

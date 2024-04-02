@@ -11,7 +11,8 @@
 
 <h3>Django Google API - Sign In</h3>
 
-<div class="container">
+<div class="sign_in-container">
+  <h2>Login</h2>
 
   <form id="signinform" method="POST" action="/sign-in">
     {% csrf_token %}
@@ -21,13 +22,27 @@
     <label for="password">Password</label>
     {{form.password}}
 
-    <label class="check-container">Show Passwords
-     <input type="checkbox" onclick="showPword()">
-     <span class="checkmark"></span>
-   </label>
+    <label class="check-container">Show Password
+      <input type="checkbox" onclick="showPword()">
+      <span class="checkmark"></span>
+    </label>
 
    <button type="submit">Sign in</button>
- </form>
+  </form>
+
+  <div class="additional-options">
+    <p class="forgot-password">Forgot your password? <a href="#">Reset it here</a></p>
+    <p class="signup-link">Don't have an account? <a href="#">Sign up now</a></p>
+  </div>
+
+  <div class="social-login">
+    <p>Or login with:</p>
+    <div class="social-icons">
+        <a href="#"><img src="{% static '/images/facebook-icon.png' %}" alt="Facebook" width="30" height="30"></a>
+        <a href="#"><img src="{% static '/images/google-icon.png' %}" alt="Google" width="30" height="30"></a>
+        <a href="#"><img src="{% static '/images/twitter-icon.png' %}" alt="Twitter" width="30" height="30"></a>
+    </div>
+  </div>
 
 </div>
 

@@ -1,13 +1,66 @@
-body {font-family: 'Courier Prime', monospace;}
 * {box-sizing: border-box;}
 
 body {
-
+  font-family: 'Courier Prime', monospace;
+  /* display: flex;   DON'T USE display:flex */
+  padding: 0;
   margin: 0;
 }
 
 body, html {
   height: 100%;
+}
+#signinform {
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+}
+
+.sign_in-container {
+  justify-content: center;
+  align-items: center;
+  max-width: 400px;
+  margin: 100px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.forgot-password {
+  text-align: center;
+  margin-top: 20px;
+  color: #555;
+}
+
+.forgot-password a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.forgot-password a:hover {
+  text-decoration: underline;
+}
+
+.additional-options {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.forgot-password, .signup-link {
+  margin-bottom: 10px;
+}
+
+.social-login {
+  text-align: center;
+}
+
+.social-icons a {
+  display: inline-block;
+  margin: 0 5px;
 }
 
 .map-container {
@@ -201,7 +254,7 @@ input, select{
   left: 0;
   height: 15px;
   width: 15px;
-  background-color: #fff;
+  background-color: #d3d0d0;
 }
 
 /* On mouse-over, add a grey background color */
