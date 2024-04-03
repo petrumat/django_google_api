@@ -45,26 +45,33 @@
   <form id="profileform" method="POST" action="/profile">
     {% csrf_token %}
 
-   <label for="address" class="hidden-el" hidden>Address</label>
-   {{form.address}}
+   <label for="id_address" class="hidden-el" hidden>Address</label>
+   {{ form.address }}
+   <!-- <input type="text" id="id_address" name="address" value="{{ form.address }}" required> -->
 
-   <label for="town" class="hidden-el" hidden>Town/City</label>
-   {{form.town}}
+   <label for="id_town" class="hidden-el" hidden>Town/City</label>
+   {{ form.town }}
+   <!-- <input type="text" id="id_town" name="town" value="{{ form.town.value }}"> -->
 
-   <label for="county" class="hidden-el" hidden>County</label>
-   {{form.county}}
+   <label for="id_county" class="hidden-el" hidden>County</label>
+   {{ form.county }}
+   <!-- <input type="text" id="id_county" name="county" value="{{ form.county.value }}" required> -->
 
-   <label for="post_code" class="hidden-el" hidden>Postal Code</label>
-   {{form.post_code}}
+   <label for="id_post_code" class="hidden-el" hidden>Postal Code</label>
+   {{ form.post_code }}
+   <!-- <input type="text" id="id_post_code" name="post_code" value="{{ form.post_code.value }}"> -->
+   
+   <label for="id_country" class="hidden-el" hidden>Country</label>
+   {{ form.country }}
+   <!-- <input type="text" id="id_country" name="country" value="{{ form.country.value }}" required> -->
 
-   <label for="country" class="hidden-el" hidden>Country</label>
-   {{form.country}}
+   <label for="id_longitude" class="hidden-el" hidden>Longitude</label>
+   {{ form.longitude }}
+   <!-- <input type="text" id="id_longitude" name="longitude" value="{{ form.longitude.value }}"> -->
 
-   <label for="post_code" class="hidden-el" hidden>Longitude</label>
-   {{form.longitude}}
-
-   <label for="country"  class="hidden-el" hidden>Latitude</label>
-   {{form.latitude}}
+   <label for="id_latitude"  class="hidden-el" hidden>Latitude</label>
+   {{ form.latitude }}
+   <!-- <input type="text" id="id_latitude" name="latitude" value="{{ form.latitude.value }}"> -->
 
 
    <button disabled type="submit" id="profile-btn">Update</button>
