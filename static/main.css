@@ -10,8 +10,12 @@ body {
 body, html {
   height: 100%;
 }
-#signinform {
+
+#signinform, #signupform {
   text-align: center;
+}
+#signinform label, #signupform label {
+  text-align: left;
 }
 
 h2 {
@@ -19,7 +23,7 @@ h2 {
   color: #333;
 }
 
-.sign_in-container {
+.sign_in-container, .sign_up-container {
   justify-content: center;
   align-items: center;
   max-width: 400px;

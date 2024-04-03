@@ -12,13 +12,12 @@
 
 <h3>Django Google API - Sign Up</h3>
 
-<div class="container">
-
+<div class="sign_up-container">
+  <h2>Sign Up</h2>
 
   <form id="signupform" method="POST" action="/sign-up">
     {% csrf_token %}
 
-    
     <label for="first_name">First Name</label>
     {{form.first_name}}
 
