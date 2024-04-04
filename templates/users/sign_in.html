@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% load socialaccount %}
 
 {% block extend_head %}
 
@@ -33,7 +33,7 @@
   <div class="additional-options">
     <p class="forgot-password">
       Forgot your password? 
-      <a href="#">Reset it here</a>
+      <a href="{% url 'users:reset-password' %}">Reset it here</a>
     </p>
 
     <p class="signup-link">
@@ -45,9 +45,11 @@
   <div class="social-login">
     <p>Or login with:</p>
     <div class="social-icons">
-        <a href="#"><img src="{% static '/images/facebook-icon.png' %}" alt="Facebook" width="30" height="30"></a>
-        <a href="#"><img src="{% static '/images/google-icon.png' %}" alt="Google" width="30" height="30"></a>
-        <a href="#"><img src="{% static '/images/twitter-icon.png' %}" alt="Twitter" width="30" height="30"></a>
+      <a href="{% provider_login_url 'google' %}"><img src="{% static '/images/google-icon.png' %}" alt="Google" width="30" height="30"></a>
+      
+      <a href="#"><img src="{% static '/images/facebook-icon.png' %}" alt="Facebook" width="30" height="30"></a>
+      
+      <!-- <a href="#"><img src="{% static '/images/twitter-icon.png' %}" alt="Twitter" width="30" height="30"></a> -->
     </div>
   </div>
 
