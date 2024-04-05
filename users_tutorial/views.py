@@ -151,3 +151,13 @@ def sign_out(request):
 	'''
 	logout(request)
 	return redirect(reverse('users:sign-in'))
+
+
+
+
+def reset_password(request):
+	'''
+	Basic view for user to reset password
+	'''
+	logout(request)
+	return redirect(reverse('users:sign-in'))

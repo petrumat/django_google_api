@@ -161,8 +161,8 @@ BASE_COUNTRY = "RO"
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
-            'client_id': config('CLIENT_ID_1'),
-            'secret': config('CLIENT_SECRET_1'),
+            'client_id': config('CLIENT_ID'),
+            'secret': config('CLIENT_SECRET'),
             'key': ''
         },
         'SCOPE': [
