@@ -1,5 +1,5 @@
 # started from did_django_google_api_tutorial
-Django project that uses Google APIs to auto populate search input boxes, display maps, custom markers and info windows, ...
+Django project that uses Google APIs to auto populate search input boxes, display maps, dynamic custom markers and info windows, monitoring live traffic data, users' events, generating alerts & reports.
 
 1) cd to development directory
 2) mkvirtualenv django_google_api
