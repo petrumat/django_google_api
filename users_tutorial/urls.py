@@ -11,4 +11,6 @@ urlpatterns = [
 	path('sign-in', views.SignInView.as_view(), name="sign-in"),
 	path('sign-out', views.sign_out, name="sign-out"),
     path('reset-password', views.reset_password, name="reset-password"),
+    path('trafficInfoList', views.trafficInfoList, name="trafficInfoList"),
+    path('trafficInfoData', views.trafficInfoData, name="trafficInfoData"),
 	]

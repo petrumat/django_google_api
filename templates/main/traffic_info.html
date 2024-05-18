@@ -24,68 +24,8 @@
 
 
 <script type="text/javascript">
-
     var google_api_key = "{{ google_api_key | safe }}";
     var base_country = "{{base_country|safe}}";
-
-    var markers = [
-        {
-            id: 1,
-            lat: 44.43437826951638,
-            lng: 26.034781571150695,
-            zone: "Intersecție Apaca",
-            density: 150,
-            med_speed: 35,
-            lights: false,
-            cameras: false,
-            signs: false,
-            incidents: false,
-            accidents: false,
-            alerts: false,
-            alert_content: "",
-            ariaLabel: "Intersecție Apaca Traffic Data",
-            icon: "green",
-            title: "Intersecție Apaca Traffic Data"
-        },
-        {
-            id: 2,
-            lat: 44.39881959737669,
-            lng: 26.04621757515901,
-            zone: "Rahova",
-            density: 150,
-            med_speed: 35,
-            lights: false,
-            cameras: false,
-            signs: false,
-            incidents: true,
-            accidents: true,
-            alert_content: "Car Accident",
-            content: "Rahova Traffic Data",
-            ariaLabel: "Rahova Traffic Data",
-            icon: "red",
-            title: "Rahova Traffic Data"
-        },
-        {
-            id: 3,
-            lat: 44.441866386877315,
-            lng: 26.17561321257828,
-            zone: "Pantelimon",
-            density: 200,
-            med_speed: 50,
-            lights: false,
-            cameras: false,
-            signs: false,
-            incidents: true,
-            accidents: false,
-            alert_content: "Road under Construction",
-            content: "Pantelimon Traffic Data",
-            ariaLabel: "Pantelimon Traffic Data",
-            icon: "red",
-            title: "Pantelimon Traffic Data"
-        },
-        // Add more marker objects here as needed
-    ];
-
 </script>
 
 <script src="{% static 'traffic_info.js' %}"></script>

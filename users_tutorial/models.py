@@ -26,3 +26,34 @@ class UserProfile(models.Model):
 
 	def __str__(self):
 		return f'{self.user}'
+	
+
+
+class TrafficInfo(models.Model):
+	choices_list = [
+		("green", "green"),
+		("yellow", "yellow"),
+		("red", "red")
+	]
+	
+	timestamp = models.DateTimeField(auto_now_add=True)
+	updated = models.DateTimeField(auto_now=True)
+		
+	lat = models.FloatField()
+	lng = models.FloatField()
+	zone = models.CharField(max_length=100)
+	density = models.IntegerField()
+	med_speed = models.IntegerField()
+	lights = models.BooleanField(default=False)
+	cameras = models.BooleanField(default=False)
+	signs = models.BooleanField(default=False)
+	incidents = models.BooleanField(default=False)
+	accidents = models.BooleanField(default=False)
+	alerts = models.BooleanField(default=False)
+	alert_content = models.CharField(max_length=255, blank=True)
+	ariaLabel = models.CharField(max_length=100)
+	icon = models.CharField(choices=choices_list, max_length=10, default='green')
+	title = models.CharField(max_length=100)
+
+	def __str__(self):
+		return f'{self.title}'

@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from django.views.generic.edit import FormView
 from django.views.generic.base import TemplateView
 from django.utils.decorators import method_decorator
+from .models import TrafficInfo
 
 
 from tutorial.mixins import(
@@ -161,3 +162,13 @@ def reset_password(request):
 	'''
 	logout(request)
 	return redirect(reverse('users:sign-in'))
+
+
+
+def trafficInfoList(request):
+	traffic_info_list = TrafficInfo.objects.all()
+	return render(request, 'lists/traffic_info_list.html', {'traffic_info_list': traffic_info_list})
+
+def trafficInfoData(request):
+	markers = TrafficInfo.objects.all().values()
+	return JsonResponse(list(markers), safe=False)
