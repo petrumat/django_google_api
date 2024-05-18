@@ -6,8 +6,10 @@ $.getScript( "https://maps.googleapis.com/maps/api/js?key=" + google_api_key + "
 const centerBucharest = { lat: 44.4268, lng: 26.10246 }
 let map;
 let searchBox;
+let icon;
 let trafficLayer;
 let infoWindows = [];
+let mapMarkers = [];
 
 function initMap() {
   map = new google.maps.Map(document.getElementById('generate_reports'), {
@@ -19,43 +21,72 @@ function initMap() {
 
   createSearchBox();
 
-  displayMarkers();
+  icon = createIcon('hiddenGenerateReportIcon');
 
   trafficLayer = new google.maps.TrafficLayer();
   createButtons();
+
+  setInterval(displayMarkers, 1000); // 1000 milliseconds
 }
 
-function displayMarkers() {
-  // Generate alert icon
-  const icon = createIcon('hiddenGenerateReportIcon');
+async function fetchMarkerData() {
+  try {
+    const response = await fetch('/generateReportsData');
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching marker generateReportsData:', error);
+    return [];
+  }
+}
+
+async function displayMarkers() {
+  // Fetch marker data from Django backend
+  const markers = await fetchMarkerData();
 
   // Iterate over the markers array
   markers.forEach((markerData, index) => {
+    const existingMarker = mapMarkers.find(marker => marker.id === markerData.id);
 
-    // Build the marker content
-    var contentString = createContentGenerateReports(markerData);
+    // If an existing marker is found and its data has changed, update it
+    if (existingMarker && existingMarker.dataChanged(markerData)) {
+        existingMarker.infoWindow.setContent(createContentGenerateReports(markerData));
+        existingMarker.data = markerData;
+    } else {
+        // Build the marker content
+        const contentString = createContentGenerateReports(markerData);
 
-    // Create a new InfoWindow instance for each marker
-    const infoWindow = new google.maps.InfoWindow({
-        content: contentString,
-        ariaLabel: markerData.ariaLabel,
-    });
-    infoWindows.push(infoWindow);
-    
-    // Create a marker and attach the info window to it
-    const marker = new google.maps.Marker({
-        position: { lat: markerData.lat, lng: markerData.lng },
-        map,
-        icon: icon,
-        // label: index.toString(),
-        title: markerData.title,
-        // animation: google.maps.Animation.BOUNCE,
-    });
+        // Create a new InfoWindow instance for each marker
+        const infoWindow = new google.maps.InfoWindow({
+            content: contentString,
+            ariaLabel: markerData.ariaLabel,
+        });
+        infoWindows.push(infoWindow);
 
-    // Add a click event listener to the marker
-    marker.addListener("click", () => {
-        infoWindow.open({ anchor: marker, map });
-    });
+        // Create a marker and attach the info window to it
+        const marker = new google.maps.Marker({
+            position: { lat: markerData.lat, lng: markerData.lng },
+            map,
+            icon: icon,
+            title: markerData.title,
+        });
+
+        // Add a click event listener to the marker
+        marker.addListener("click", () => {
+          infoWindow.open({ anchor: marker, map });
+        });
+
+        // Add the marker to the array of marker objects
+        mapMarkers.push({
+            id: markerData.id,
+            marker,
+            infoWindow,
+            data: markerData,
+            dataChanged(newData) {
+                // Check if any property of the marker's data has changed
+                return JSON.stringify(this.data) !== JSON.stringify(newData);
+            }
+        });
+    }
   });
 }
 

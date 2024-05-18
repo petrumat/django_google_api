@@ -6,8 +6,10 @@ $.getScript( "https://maps.googleapis.com/maps/api/js?key=" + google_api_key + "
 const centerBucharest = { lat: 44.4268, lng: 26.10246 }
 let map;
 let searchBox;
+let icon;
 let trafficLayer;
 let infoWindows = [];
+let mapMarkers = [];
 let circles = [];
 
 function initMap() {
@@ -20,60 +22,97 @@ function initMap() {
 
   createSearchBox();
 
-  displayMarkers();
+  icon = createIcon('hiddenGenerateAlertIcon');
 
   trafficLayer = new google.maps.TrafficLayer();
   createButtons();
+
+  setInterval(displayMarkers, 1000); // 1000 milliseconds
 }
 
-function displayMarkers() {
-  // Generate alert icon
-  const icon = createIcon('hiddenGenerateAlertIcon');
+async function fetchMarkerData() {
+  try {
+    const response = await fetch('/generateAlertsData');
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching marker generateAlertsData:', error);
+    return [];
+  }
+}
+
+async function displayMarkers() {
+  // Fetch marker data from Django backend
+  const markers = await fetchMarkerData();
 
   // Iterate over the markers array
   markers.forEach((markerData, index) => {
+    const existingMarker = mapMarkers.find(marker => marker.id === markerData.id);
 
-    // Build the marker content
-    var contentString = createContentGenerateAlerts(markerData);
+    // If an existing marker is found and its data has changed, update it
+    if (existingMarker && existingMarker.dataChanged(markerData)) {
+        existingMarker.infoWindow.setContent(createContentGenerateAlerts(markerData));
+        existingMarker.data = markerData;
+        updateCircle(existingMarker.id, markerData);
+    } else {
+        // Build the marker content
+        const contentString = createContentGenerateAlerts(markerData);
 
-    // Create a new InfoWindow instance for each marker
-    const infoWindow = new google.maps.InfoWindow({
-        content: contentString,
-        ariaLabel: markerData.ariaLabel,
-    });
-    infoWindows.push(infoWindow);
-    
-    // Create a marker and attach the info window to it
-    const marker = new google.maps.Marker({
-        position: { lat: markerData.lat, lng: markerData.lng },
-        map,
-        icon: icon,
-        // label: index.toString(),
-        title: markerData.title,
-        // animation: google.maps.Animation.BOUNCE,
-    });
+        // Create a new InfoWindow instance for each marker
+        const infoWindow = new google.maps.InfoWindow({
+            content: contentString,
+            ariaLabel: markerData.ariaLabel,
+        });
+        infoWindows.push(infoWindow);
 
-    // Define the circle options
-    var circleOptions = {
-      strokeColor: "#FFCC33", // Color of the circle border
-      strokeOpacity: 1,     // Opacity of the circle border [0.0 -> 1]
-      strokeWeight: 3,        // Thickness of the circle border
-      fillColor: "yellow",   // Color of the circle fill
-      fillOpacity: 0.0,      // Opacity of the circle fill
-      map: map,
-      center: { lat: markerData.lat, lng: markerData.lng },
-      radius: 1500           // Radius of the circle in meters
-    };
+        // Create a marker and attach the info window to it
+        const marker = new google.maps.Marker({
+            position: { lat: markerData.lat, lng: markerData.lng },
+            map,
+            icon: icon,
+            title: markerData.title,
+        });
 
-    // Append the circle
-    const circle = new google.maps.Circle(circleOptions)
-    circles.push(circle);
+        if (!circles[markerData.id]) {
+          // Define the circle options
+          var circleOptions = {
+            strokeColor: "#FFCC33", // circle border
+            strokeOpacity: 1,     // [0.0 -> 1]
+            strokeWeight: 3,        // border thickness 
+            fillColor: "yellow",   // circle fill
+            fillOpacity: 0.0,
+            map: map,
+            center: { lat: markerData.lat, lng: markerData.lng },
+            radius: 1500           // meters
+          };
+          const circle = new google.maps.Circle(circleOptions)
+          // circles.push(circle);
+          circles[markerData.id] = circle;
+        }
 
-    // Add a click event listener to the marker
-    marker.addListener("click", () => {
-        infoWindow.open({ anchor: marker, map });
-    });
+        // Add a click event listener to the marker
+        marker.addListener("click", () => {
+          infoWindow.open({ anchor: marker, map });
+        });
+
+        // Add the marker to the array of marker objects
+        mapMarkers.push({
+            id: markerData.id,
+            marker,
+            infoWindow,
+            data: markerData,
+            dataChanged(newData) {
+                // Check if any property of the marker's data has changed
+                return JSON.stringify(this.data) !== JSON.stringify(newData);
+            }
+        });
+    }
   });
+}
+
+function updateCircle(markerId, markerData) {
+  if (circles[markerId]) {
+      circles[markerId].setCenter(new google.maps.LatLng(markerData.lat, markerData.lng));
+  }
 }
 
 function createButtons() {
