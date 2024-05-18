@@ -28,40 +28,6 @@
     var google_api_key = "{{ google_api_key | safe }}";
     var base_country = "{{base_country|safe}}";
 
-    var markers = [
-        {
-            id: 1,
-            lat: 44.42064644862191,
-            lng: 26.034359594211946,
-            zone: "Drumul Taberei",
-            link: "traffic_info",
-            content: "Drumul Taberei Report",
-            ariaLabel: "Drumul Taberei Report",
-            title: "Drumul Taberei Report"
-        },
-        {
-            id: 2,
-            lat: 44.467405932777275,
-            lng: 26.078040004656334,
-            zone: "Arcul de Triumf",
-            link: "generate_alerts",
-            content: "Arcul de Triumf Report",
-            ariaLabel: "Arcul de Triumf Report",
-            title: "Arcul de Triumf Report"
-        },
-        {
-            id: 3,
-            lat: 44.41302615591946,
-            lng: 26.163882495047016,
-            zone: "Titan",
-            link: "traffic_lights",
-            content: "Titan Report",
-            ariaLabel: "Titan Report",
-            title: "Titan Report"
-        },
-        // Add more marker objects here as needed
-    ];
-
 </script>
 
 <script src="{% static 'generate_reports.js' %}"></script>

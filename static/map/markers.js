@@ -74,9 +74,9 @@ function createContentTrafficLight(markerData) {
         appendString("Orientation -", markerData.orientation) +
         appendFunctionState(markerData.functioning, markerData.function_error) +
         appendProgramState(markerData.program) +
-        appendColorTime("Red", markerData.time.yellow) +
-        appendColorTime("Yellow", markerData.time.yellow) +
-        appendColorTime("Green", markerData.time.green) +
+        appendColorTime("Red", markerData.time_red) +
+        appendColorTime("Yellow", markerData.time_yellow) +
+        appendColorTime("Green", markerData.time_green) +
         appendError(markerData.error) +
         "</div>";
     

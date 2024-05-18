@@ -6,8 +6,12 @@ $.getScript( "https://maps.googleapis.com/maps/api/js?key=" + google_api_key + "
 const centerBucharest = { lat: 44.4268, lng: 26.10246 }
 let map;
 let searchBox;
+let icon;
+let iconGreen;
+let iconRed;
 let trafficLayer;
 let infoWindows = [];
+let mapMarkers = [];
 
 function initMap() {
   map = new google.maps.Map(document.getElementById('traffic_lights'), {
@@ -19,58 +23,88 @@ function initMap() {
 
   createSearchBox();
 
-  displayMarkers();
+  icon = createIcon('hiddenTrafficLightIcon');
+  iconGreen = createIcon('hiddenTrafficLightGreenIcon');
+  iconRed = createIcon('hiddenTrafficLightRedIcon');
 
   trafficLayer = new google.maps.TrafficLayer();
   createButtons();
+
+  setInterval(displayMarkers, 1000); // 1000 milliseconds
 }
 
-function displayMarkers() {
-  // Generate traffic light icons
-  const icon = createIcon('hiddenTrafficLightIcon');
-  const iconGreen = createIcon('hiddenTrafficLightGreenIcon');
-  const iconRed = createIcon('hiddenTrafficLightRedIcon');
+async function fetchMarkerData() {
+  try {
+    const response = await fetch('/trafficLightsData');
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching marker trafficLightsData:', error);
+    return [];
+  }
+}
+
+async function displayMarkers() {
+  // Fetch marker data from Django backend
+  const markers = await fetchMarkerData();
 
   // Iterate over the markers array
   markers.forEach((markerData, index) => {
+    const existingMarker = mapMarkers.find(marker => marker.id === markerData.id);
 
-    // Determine icon style
-    switch(markerData.functioning) {
-      case true:
-        markerIcon = iconGreen
-        break;
-      case false:
-        markerIcon = iconRed
-        break;
-      default:
-        console.log('Unknown icon in traffic_lights.js');
+    // If an existing marker is found and its data has changed, update it
+    if (existingMarker && existingMarker.dataChanged(markerData)) {
+        existingMarker.infoWindow.setContent(createContentTrafficLight(markerData));
+        existingMarker.marker.setIcon(chooseMarkerIcon(markerData.functioning));
+        existingMarker.data = markerData;
+    } else {
+        // Build the marker content
+        const contentString = createContentTrafficLight(markerData);
+
+        // Create a new InfoWindow instance for each marker
+        const infoWindow = new google.maps.InfoWindow({
+            content: contentString,
+            ariaLabel: markerData.ariaLabel,
+        });
+        infoWindows.push(infoWindow);
+
+        // Create a marker and attach the info window to it
+        const marker = new google.maps.Marker({
+            position: { lat: markerData.lat, lng: markerData.lng },
+            map,
+            icon: chooseMarkerIcon(markerData.functioning),
+            title: markerData.title,
+        });
+
+        // Add a click event listener to the marker
+        marker.addListener("click", () => {
+          infoWindow.open({ anchor: marker, map });
+        });
+
+        // Add the marker to the array of marker objects
+        mapMarkers.push({
+            id: markerData.id,
+            marker,
+            infoWindow,
+            data: markerData,
+            dataChanged(newData) {
+                // Check if any property of the marker's data has changed
+                return JSON.stringify(this.data) !== JSON.stringify(newData);
+            }
+        });
     }
-
-    // Build the marker content
-    var contentString = createContentTrafficLight(markerData);
-
-    // Create a new InfoWindow instance for each marker
-    const infoWindow = new google.maps.InfoWindow({
-        content: contentString,
-        ariaLabel: markerData.ariaLabel,
-    });
-    infoWindows.push(infoWindow);
-    
-    // Create a marker and attach the info window to it
-    const marker = new google.maps.Marker({
-        position: { lat: markerData.lat, lng: markerData.lng },
-        map,
-        icon: markerIcon,
-        // label: index.toString(),
-        title: markerData.title,
-        // animation: google.maps.Animation.BOUNCE,
-    });
-
-    // Add a click event listener to the marker
-    marker.addListener("click", () => {
-        infoWindow.open({ anchor: marker, map });
-    });
   });
+}
+
+function chooseMarkerIcon(functioning) {
+  switch (functioning) {
+    case true:
+      return iconGreen;
+    case false:
+      return iconRed;
+    default:
+      console.log('Unknown icon in traffic_lights.js');
+      return icon;
+  }
 }
 
 function createButtons() {

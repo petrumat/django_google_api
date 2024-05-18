@@ -7,7 +7,7 @@ from django.http import JsonResponse
 from django.views.generic.edit import FormView
 from django.views.generic.base import TemplateView
 from django.utils.decorators import method_decorator
-from .models import TrafficInfo
+from .models import TrafficInfo, TrafficLight, GenerateAlert, GenerateReport
 
 
 from tutorial.mixins import(
@@ -165,6 +165,7 @@ def reset_password(request):
 
 
 
+
 def trafficInfoList(request):
 	traffic_info_list = TrafficInfo.objects.all()
 	return render(request, 'lists/traffic_info_list.html', {'traffic_info_list': traffic_info_list})
@@ -172,3 +173,40 @@ def trafficInfoList(request):
 def trafficInfoData(request):
 	markers = TrafficInfo.objects.all().values()
 	return JsonResponse(list(markers), safe=False)
+
+
+
+
+def trafficLightsList(request):
+	traffic_lights_list = TrafficLight.objects.all()
+	return render(request, 'lists/traffic_lights_list.html', {'traffic_lights_list': traffic_lights_list})
+
+def trafficLightsData(request):
+	markers = TrafficLight.objects.all().values()
+	return JsonResponse(list(markers), safe=False)
+
+
+
+
+def generateAlertsList(request):
+	generate_alerts_list = GenerateAlert.objects.all()
+	return render(request, 'lists/generate_alerts_list.html', {'generate_alerts_list': generate_alerts_list})
+
+def generateAlertsData(request):
+	markers = GenerateAlert.objects.all().values()
+	return JsonResponse(list(markers), safe=False)
+
+
+
+
+def generateReportsList(request):
+	generate_reports_list = GenerateReport.objects.all()
+	return render(request, 'lists/generate_reports_list.html', {'generate_reports_list': generate_reports_list})
+
+def generateReportsData(request):
+	markers = GenerateReport.objects.all().values()
+	return JsonResponse(list(markers), safe=False)
+
+
+
+

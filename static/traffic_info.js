@@ -63,6 +63,7 @@ async function displayMarkers() {
             content: contentString,
             ariaLabel: markerData.ariaLabel,
         });
+        infoWindows.push(infoWindow);
 
         // Create a marker and attach the info window to it
         const marker = new google.maps.Marker({

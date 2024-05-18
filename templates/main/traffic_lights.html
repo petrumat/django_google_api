@@ -28,46 +28,6 @@
     var google_api_key = "{{ google_api_key | safe }}";
     var base_country = "{{base_country|safe}}";
 
-    var markers = [
-        {
-            id: 1,
-            lat: 44.433856997295756,
-            lng: 26.00598608604801,
-            zone: "Militari",
-            orientation: "NE",
-            functioning: false,
-            function_error: "Green Light Error",
-            program: "MANUAL",
-            time: {
-                red: 295,
-                yellow: 7,
-                green: 200
-            },
-            error: "Traffic Light Malfunction - Manual Control Only",
-            ariaLabel: "Militari Traffic Light Control",
-            title: "Militari Traffic Light Control"
-        },
-        {
-            id: 2,
-            lat: 44.44129607879401,
-            lng: 26.1333761216978,
-            zone: "Iancului",
-            orientation: "E",
-            functioning: true,
-            function_error: "",
-            program: "AUTO",
-            time: {
-                red: 240,
-                yellow: 7,
-                green: 500
-            },
-            error: "",
-            ariaLabel: "Iancului Traffic Light Control",
-            title: "Iancului Traffic Light Control"
-        },
-        // Add more marker objects here as needed
-    ];
-
 </script>
 
 <script src="{% static 'traffic_lights.js' %}"></script>

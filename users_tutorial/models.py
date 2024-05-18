@@ -29,6 +29,7 @@ class UserProfile(models.Model):
 	
 
 
+
 class TrafficInfo(models.Model):
 	choices_list = [
 		("green", "green"),
@@ -53,6 +54,82 @@ class TrafficInfo(models.Model):
 	alert_content = models.CharField(max_length=255, blank=True)
 	ariaLabel = models.CharField(max_length=100)
 	icon = models.CharField(choices=choices_list, max_length=10, default='green')
+	title = models.CharField(max_length=100)
+
+	def __str__(self):
+		return f'{self.title}'
+
+	
+
+
+class TrafficLight(models.Model):
+	orientation_list = [
+		("N", "N"),
+		("NE", "NE"),
+		("E", "E"),
+		("SE", "SE"),
+		("S", "S"),
+		("SV", "SV"),
+		("V", "V"),
+		("NV", "NV")
+	]
+	program_list = [
+		("MANUAL", "MANUAL"),
+		("AUTO", "AUTO")
+	]
+	
+	timestamp = models.DateTimeField(auto_now_add=True)
+	updated = models.DateTimeField(auto_now=True)
+		
+	lat = models.FloatField()
+	lng = models.FloatField()
+	zone = models.CharField(max_length=100)
+	orientation = models.CharField(choices=orientation_list, max_length=3, default='N')
+	functioning = models.BooleanField(default=False)
+	function_error = models.CharField(max_length=100, blank=True)
+	program = models.CharField(choices=program_list, max_length=10, default='MANUAL')
+	time_red = models.IntegerField()
+	time_yellow = models.IntegerField()
+	time_green = models.IntegerField()
+	error = models.CharField(max_length=100, blank=True)
+	ariaLabel = models.CharField(max_length=100)
+	title = models.CharField(max_length=100)
+
+	def __str__(self):
+		return f'{self.title}'
+	
+
+
+
+class GenerateAlert(models.Model):
+	timestamp = models.DateTimeField(auto_now_add=True)
+	updated = models.DateTimeField(auto_now=True)
+		
+	lat = models.FloatField()
+	lng = models.FloatField()
+	zone = models.CharField(max_length=100)
+	speed = models.FloatField()
+	alert = models.CharField(max_length=100)
+	content = models.CharField(max_length=300)
+	ariaLabel = models.CharField(max_length=100)
+	title = models.CharField(max_length=100)
+
+	def __str__(self):
+		return f'{self.title}'
+	
+
+
+
+class GenerateReport(models.Model):
+	timestamp = models.DateTimeField(auto_now_add=True)
+	updated = models.DateTimeField(auto_now=True)
+		
+	lat = models.FloatField()
+	lng = models.FloatField()
+	zone = models.CharField(max_length=100)
+	link = models.URLField(max_length=200)
+	content = models.CharField(max_length=300)
+	ariaLabel = models.CharField(max_length=100)
 	title = models.CharField(max_length=100)
 
 	def __str__(self):
