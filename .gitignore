@@ -10,6 +10,7 @@ users/__pycache__/
 users/migrations/__pycache__/
 users_tutorial/__pycache__/
 users_tutorial/migrations/__pycache__/
+testing/
 
 cpython-311.pyc
 accounts.json

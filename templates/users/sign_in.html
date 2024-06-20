@@ -57,7 +57,12 @@
 
 {% endblock %}
 
-
 {% block extend_footer %}
+
+<script type="text/javascript">
+  // Create a variable that can be used in main.js
+  var recaptcha_site_key = '{{recaptcha_site_key|safe}}'
+</script>
+
 
 {% endblock %}

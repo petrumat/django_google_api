@@ -62,4 +62,17 @@ class UserProfileForm(forms.ModelForm):
 	class Meta:
 		model = UserProfile
 		fields = ('address', 'town', 'county', 'post_code',
-		 'country', 'longitude', 'latitude')
+		 'country', 'longitude', 'latitude', )
+
+
+
+class UsernameForm(AuthenticationForm):
+	'''
+	Basic model-form for our user reset password feature that extends Django user model.
+	'''
+	username = forms.EmailField(max_length=254, required=True,
+		widget=forms.TextInput(attrs={'placeholder': '*Email..'}))
+
+	class Meta:
+		model = User
+		fields = ('username', )

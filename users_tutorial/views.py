@@ -1,12 +1,18 @@
 from django.shortcuts import render, redirect, reverse
+from django.urls import reverse_lazy
+from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth import login, logout, authenticate, get_user_model
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
 from django.conf import settings
 from django.http import JsonResponse
 from django.views.generic.edit import FormView
 from django.views.generic.base import TemplateView
 from django.utils.decorators import method_decorator
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
 from .models import TrafficInfo, TrafficLight, GenerateAlert, GenerateReport
 
 
@@ -14,7 +20,6 @@ from tutorial.mixins import(
 	AjaxFormMixin, 
 	reCAPTCHAValidation,
 	FormErrors,
-	RedirectParams,
 	is_ajax
 )
 
@@ -23,6 +28,7 @@ from .forms import (
 	UserForm,
 	UserProfileForm,
 	AuthForm,
+	UsernameForm,
 	)
 
 result = "Error"
@@ -94,6 +100,11 @@ class SignUpView(AjaxFormMixin, FormView):
 		if is_ajax(self.request):
 			token = form.cleaned_data.get('token')
 			captcha = reCAPTCHAValidation(token)
+
+			# Initialize result and message with default values
+			result = "Error"
+			message = "Invalid reCAPTCHA. Please try again."
+
 			if captcha["success"]:
 				obj = form.save()
 				obj.email = obj.username
@@ -108,7 +119,7 @@ class SignUpView(AjaxFormMixin, FormView):
 				result = "Success"
 				message = "Thank you for signing up"
 
-				
+			
 			data = {'result': result, 'message': message}
 			return JsonResponse(data)
 
@@ -128,11 +139,13 @@ class SignInView(AjaxFormMixin, FormView):
 
 	def form_valid(self, form):
 		response = super(AjaxFormMixin, self).form_valid(form)	
+		
 		if is_ajax(self.request):
 			username = form.cleaned_data.get('username')
 			password = form.cleaned_data.get('password')
 			#attempt to authenticate user
 			user = authenticate(self.request, username=username, password=password)
+			
 			if user is not None:
 				login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
 				result = "Success"
@@ -141,7 +154,61 @@ class SignInView(AjaxFormMixin, FormView):
 				message = FormErrors(form)
 			data = {'result': result, 'message': message}
 			return JsonResponse(data)
+		
 		return response
+
+
+
+
+class ResetPasswordView(AjaxFormMixin, FormView):
+	'''
+	Generic FormView with our mixin for user reset-password
+	'''
+
+	template_name = "users/reset_password.html"
+	form_class = UsernameForm
+	success_url = "/"
+	
+	def form_valid(self, form):
+		User = get_user_model()
+		
+		response = super(AjaxFormMixin, self).form_valid(form)	
+		
+		if is_ajax(self.request):
+			username = form.cleaned_data.get('username')
+			#attempt to authenticate user
+			try:
+				user = User.objects.get(email=username)
+				# Generate password reset link
+				token = default_token_generator.make_token(user)
+				uid = urlsafe_base64_encode(force_bytes(user.pk))
+				current_site = get_current_site(self.request)
+				reset_link = self.request.build_absolute_uri(
+					reverse_lazy('password_reset_confirm', kwargs={'uidb64': uid, 'token': token})
+				)
+
+				# Send email
+				subject = "Password Reset Requested"
+				message = render_to_string('users/password_reset_email.html', {
+					'user': user,
+					'reset_link': reset_link,
+					'domain': current_site.domain,
+					'site_name': current_site.name,
+				})
+				send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user.username], fail_silently=False)
+
+				result = "Success"
+				message = "A password reset link has been sent to your email."
+			except User.DoesNotExist:
+				result = "Error"
+				message = "User does not exist."
+
+			
+			data = {'result': result, 'message': message}
+			return JsonResponse(data)
+		
+		return response
+
 
 
 
@@ -153,15 +220,6 @@ def sign_out(request):
 	logout(request)
 	return redirect(reverse('users:sign-in'))
 
-
-
-
-def reset_password(request):
-	'''
-	Basic view for user to reset password
-	'''
-	logout(request)
-	return redirect(reverse('users:sign-in'))
 
 
 
