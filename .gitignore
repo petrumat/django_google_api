@@ -1,6 +1,7 @@
 reCAPTCHA details.txt
 .env
 .vscode/settings.json
+
 main/__pycache__/
 main/migrations/__pycache__/
 main_tutorial/__pycache__/
@@ -10,7 +11,11 @@ users/__pycache__/
 users/migrations/__pycache__/
 users_tutorial/__pycache__/
 users_tutorial/migrations/__pycache__/
-testing/
+testing/__pycache__
+testing/management/__pycache__
+testing/management/commands/__pycache__
+
+testing/load_test.py
 
 cpython-311.pyc
 accounts.json
