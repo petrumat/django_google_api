@@ -13,7 +13,8 @@ function createIcon(elementId) {
 
 // General functions for building content strings
 function appendGeolocation(lat, lng) {
-    return "<strong>Geolocation:</strong> [" + lat + ", " + lng + "]<br>";
+    // return "<strong>Geolocation:</strong> [" + lat + ", " + lng + "]<br>";
+    return "Latitude: " + lat + "<br>Longitude: " + lng + "<br>";
 }
 
 function appendString(tag, value) {

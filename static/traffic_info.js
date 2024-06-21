@@ -7,6 +7,7 @@ const centerBucharest = { lat: 44.4268, lng: 26.10246 }
 let map;
 let searchBox;
 let trafficInfoGreenIcon;
+let trafficInfoYellowIcon;
 let trafficInfoRedIcon;
 let trafficLayer;
 let infoWindows = [];
@@ -23,6 +24,7 @@ function initMap() {
   createSearchBox();
 
   trafficInfoGreenIcon = createIcon('hiddenTrafficInfoGreenIcon');
+  trafficInfoYellowIcon = createIcon('hiddenTrafficInfoYellowIcon');
   trafficInfoRedIcon = createIcon('hiddenTrafficInfoRedIcon');
 
   trafficLayer = new google.maps.TrafficLayer();
@@ -97,6 +99,8 @@ function chooseMarkerIcon(icon) {
   switch (icon) {
       case "green":
           return trafficInfoGreenIcon;
+      case "yellow":
+          return trafficInfoYellowIcon;
       case "red":
           return trafficInfoRedIcon;
       default:
