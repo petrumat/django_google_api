@@ -30,7 +30,9 @@ function initMap() {
   trafficLayer = new google.maps.TrafficLayer();
   createButtons();
 
-  setInterval(displayMarkers, 1000); // 1000 milliseconds
+  displayMarkers();
+  
+  setInterval(displayMarkers, 10000); // milliseconds
 }
 
 async function fetchMarkerData() {

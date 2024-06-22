@@ -14,6 +14,7 @@ from django.utils.decorators import method_decorator
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from .models import TrafficInfo, TrafficLight, GenerateAlert, GenerateReport
+from .utils import update_traffic_info_data, update_traffic_lights_data, update_generate_alerts_data, update_generate_reports_data
 
 
 from tutorial.mixins import(
@@ -229,6 +230,7 @@ def trafficInfoList(request):
 	return render(request, 'lists/traffic_info_list.html', {'traffic_info_list': traffic_info_list})
 
 def trafficInfoData(request):
+	update_traffic_info_data()
 	markers = TrafficInfo.objects.all().values()
 	return JsonResponse(list(markers), safe=False)
 
@@ -240,6 +242,7 @@ def trafficLightsList(request):
 	return render(request, 'lists/traffic_lights_list.html', {'traffic_lights_list': traffic_lights_list})
 
 def trafficLightsData(request):
+	update_traffic_lights_data()
 	markers = TrafficLight.objects.all().values()
 	return JsonResponse(list(markers), safe=False)
 
@@ -251,6 +254,7 @@ def generateAlertsList(request):
 	return render(request, 'lists/generate_alerts_list.html', {'generate_alerts_list': generate_alerts_list})
 
 def generateAlertsData(request):
+	update_generate_alerts_data()
 	markers = GenerateAlert.objects.all().values()
 	return JsonResponse(list(markers), safe=False)
 
@@ -262,6 +266,7 @@ def generateReportsList(request):
 	return render(request, 'lists/generate_reports_list.html', {'generate_reports_list': generate_reports_list})
 
 def generateReportsData(request):
+	update_generate_reports_data()
 	markers = GenerateReport.objects.all().values()
 	return JsonResponse(list(markers), safe=False)
 

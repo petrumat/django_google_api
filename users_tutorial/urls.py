@@ -1,3 +1,4 @@
+from django.views.generic import RedirectView
 from django.urls import path
 from . import views
 
@@ -5,6 +6,7 @@ from . import views
 app_name = "users_tutorial"
 
 urlpatterns = [
+    path('favicon.ico', RedirectView.as_view(url='/static/branding/logo.gif')),
 	path('', views.AccountView.as_view(), name="account"),
 	path('profile', views.profile_view, name="profile"),
 	path('sign-up', views.SignUpView.as_view(), name="sign-up"),

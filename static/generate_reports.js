@@ -26,6 +26,8 @@ function initMap() {
   trafficLayer = new google.maps.TrafficLayer();
   createButtons();
 
+  displayMarkers();
+  
   setInterval(displayMarkers, 1000); // 1000 milliseconds
 }
 
