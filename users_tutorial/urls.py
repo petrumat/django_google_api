@@ -16,10 +16,15 @@ urlpatterns = [
     
     path('trafficInfoList', views.trafficInfoList, name="trafficInfoList"),
     path('trafficInfoData', views.trafficInfoData, name="trafficInfoData"),
+
     path('trafficLightsList', views.trafficLightsList, name="trafficLightsList"),
     path('trafficLightsData', views.trafficLightsData, name="trafficLightsData"),
+
     path('generateAlertsList', views.generateAlertsList, name="generateAlertsList"),
     path('generateAlertsData', views.generateAlertsData, name="generateAlertsData"),
+
     path('generateReportsList', views.generateReportsList, name="generateReportsList"),
     path('generateReportsData', views.generateReportsData, name="generateReportsData"),
+    path('generateReport', views.generateReport, name="generateReport"),
+
 	]

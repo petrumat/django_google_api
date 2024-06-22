@@ -7,7 +7,7 @@ from django.contrib.auth import login, logout, authenticate, get_user_model
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.conf import settings
-from django.http import JsonResponse
+from django.http import JsonResponse, FileResponse
 from django.views.generic.edit import FormView
 from django.views.generic.base import TemplateView
 from django.utils.decorators import method_decorator
@@ -15,6 +15,12 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from .models import TrafficInfo, TrafficLight, GenerateAlert, GenerateReport
 from .utils import update_traffic_info_data, update_traffic_lights_data, update_generate_alerts_data, update_generate_reports_data
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import landscape, A4
+from reportlab.lib.units import inch, cm
+from reportlab.platypus import Table, TableStyle
+from reportlab.lib import colors
+import io
 
 
 from tutorial.mixins import(
@@ -270,6 +276,136 @@ def generateReportsData(request):
 	markers = GenerateReport.objects.all().values()
 	return JsonResponse(list(markers), safe=False)
 
+def generateReport(request):
+	Lat = float(request.GET.get('Lat', 0))
+	Lng = float(request.GET.get('Lng', 0))
+	deviation = float(request.GET.get('Dev', 0))
+
+	buffer = io.BytesIO()
+
+	p = canvas.Canvas(buffer, pagesize=landscape(A4))
+
+	p.setFont("Helvetica-Bold", 16)
+	p.drawString(100, 570, "Generated Report")
+
+	traffic_info_data, traffic_light_data, alert_data = get_report_data(Lat, Lng, deviation)
+
+	data_ti = [
+		["Timestamp", "Latitude", "Longitude", "Zone", "Accidents", "Alerts", "Details"]
+	]
+	for item in traffic_info_data:
+		data_ti.append([
+			item.timestamp.strftime("%Y-%m-%d %H:%M:%S"),
+			round(item.lat, 3),
+			round(item.lng, 3),
+			item.zone,
+			"Yes" if item.accidents else "No",
+			"Yes" if item.alerts else "No",
+			item.alert_content
+		])
+
+	data_tl = [
+		["Timestamp", "Latitude", "Longitude", "Zone", "Program", "Red", "Yellow", "Green"]
+	]
+	for item in traffic_light_data:
+		data_tl.append([
+			item.timestamp.strftime("%Y-%m-%d %H:%M:%S"),
+			round(item.lat, 3),
+			round(item.lng, 3),
+			item.zone,
+			item.program,
+			item.time_red,
+			item.time_yellow,
+			item.time_green,
+		])
+	
+	data_ga = [
+		["Timestamp", "Latitude", "Longitude", "Zone", "Details"]
+	]
+	for item in alert_data:
+		data_ga.append([
+			item.timestamp.strftime("%Y-%m-%d %H:%M:%S"),
+			round(item.lat, 3),
+			round(item.lng, 3),
+			item.zone,
+			item.alert
+		])
+
+	col_widths_ti = [1.5 * inch, 0.75 * inch, 1 * inch, 1.25 * inch, 1 * inch, 0.6 * inch, 4 * inch]
+	col_widths_tl = [1.5 * inch, 0.75 * inch, 1 * inch, 1.25 * inch, 1 * inch, 1 * inch, 1 * inch, 1 * inch]
+	col_widths_ga = [1.5 * inch, 0.75 * inch, 1 * inch, 1.25 * inch, 4 * inch]
+
+	style_ti = TableStyle([
+		('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+		('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+		('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+		('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+		('FONTSIZE', (0, 0), (-1, 0), 12),
+		('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+		('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+		('GRID', (0, 0), (-1, -1), 1, colors.black),
+	])
+	style_tl = TableStyle([
+		('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+		('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+		('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+		('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+		('FONTSIZE', (0, 0), (-1, 0), 12),
+		('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+		('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+		('GRID', (0, 0), (-1, -1), 1, colors.black),
+	])
+	style_ga = TableStyle([
+		('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+		('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+		('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+		('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+		('FONTSIZE', (0, 0), (-1, 0), 12),
+		('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+		('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+		('GRID', (0, 0), (-1, -1), 1, colors.black),
+	])
+
+	table_ti = Table(data_ti, colWidths=col_widths_ti)
+	table_tl = Table(data_tl, colWidths=col_widths_tl)
+	table_ga = Table(data_ga, colWidths=col_widths_ga)
+
+	table_ti.setStyle(style_ti)
+	table_tl.setStyle(style_tl)
+	table_ga.setStyle(style_ga)
+
+	table_ti.wrapOn(p, inch*11, inch*8.5)
+	table_tl.wrapOn(p, inch*11, inch*8.5)
+	table_ga.wrapOn(p, inch*11, inch*8.5)
+
+	table_ti.drawOn(p, inch, inch*5.5)
+	table_tl.drawOn(p, inch, inch*3.5)
+	table_ga.drawOn(p, inch, inch*1.5)
+
+	p.showPage()
+	p.save()
+
+	buffer.seek(0)
+	return FileResponse(buffer, as_attachment=True, filename="traffic_report.pdf")
 
 
+def get_report_data(Lat, Lng, deviation):
+	if deviation > 0:
+		traffic_info_data = TrafficInfo.objects.filter(
+			lat__range=(Lat - deviation, Lat + deviation),
+			lng__range=(Lng - deviation, Lng + deviation)
+		)
+		traffic_light_data = TrafficLight.objects.filter(
+			lat__range=(Lat - deviation, Lat + deviation),
+			lng__range=(Lng - deviation, Lng + deviation)
+		)
+		alert_data = GenerateAlert.objects.filter(
+			lat__range=(Lat - deviation, Lat + deviation),
+			lng__range=(Lng - deviation, Lng + deviation)
+		)
+	else:
+		traffic_info_data = TrafficInfo.objects.all()
+		traffic_light_data = TrafficLight.objects.all()
+		alert_data = GenerateAlert.objects.all()
 
+	return traffic_info_data, traffic_light_data, alert_data

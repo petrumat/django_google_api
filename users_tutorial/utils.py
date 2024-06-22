@@ -1,4 +1,4 @@
-from .models import TrafficInfo, TrafficLight
+from .models import TrafficInfo, TrafficLight, GenerateAlert, GenerateReport
 import random
 
 
@@ -97,4 +97,8 @@ def update_generate_alerts_data():
 # Generate Reports Map functions
 
 def update_generate_reports_data():
-    return
+    reports = GenerateReport.objects.all()
+    for report in reports:
+        report.link = "generateReport?Lat=" + str(report.lat) + "&Lng=" + str(report.lng) + "&Dev=0.05"
+
+        report.save()
