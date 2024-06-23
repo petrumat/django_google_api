@@ -42,7 +42,7 @@ function createContentTrafficInfo(markerData) {
         appendStringCondition(markerData.signs, "Traffic Signs") +
         appendStringCondition(markerData.incidents, "Traffic Incidents") +
         appendStringCondition(markerData.accidents, "Traffic Accidents") +
-        appendIncidents(markerData.incidents, markerData.accidents, markerData.alert_content) +
+        appendIncidents(markerData.accidents, markerData.alert_content) +
         "</div>";
     
     return content;
@@ -55,9 +55,9 @@ function appendStringCondition(condition, string) {
     return colorString("green", "✔", string);
 }
 
-function appendIncidents(incidents, accidents, string) {
+function appendIncidents(accidents, string) {
     if (accidents === false)
-        if (incidents === false)
+        if ((typeof string === "string" && string.length === 0) || string === null)
             return "<br>" + colorString("green", "", "No Alerts");
         else
             return "<br>" + colorString("orange", "", "Reported Incident: ") + colorString("black", "", string);

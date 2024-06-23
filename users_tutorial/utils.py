@@ -103,8 +103,10 @@ def update_generate_alerts_data():
 # Generate Reports Map functions
 
 def update_generate_reports_data():
+    dev = 0.02
     reports = GenerateReport.objects.all()
+
     for report in reports:
-        report.link = "generateReport?Lat=" + str(report.lat) + "&Lng=" + str(report.lng) + "&Dev=0.05"
+        report.link = f'generateReport?Lat={report.lat}&Lng={report.lng}&Dev={dev}'
 
         report.save()

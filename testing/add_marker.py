@@ -1,3 +1,4 @@
+from colorama import init, Fore
 import os, sys, django
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -11,11 +12,15 @@ from users_tutorial.models import TrafficInfo, TrafficLight, GenerateAlert, Gene
 import users_tutorial.utils as utils
 
 
+init(autoreset=True)
+
+
 def main():
     # add_traffic_info_marker()
-    add_traffic_light_marker()
+    # add_traffic_light_marker()
     # add_generate_alert_marker()
     # add_generate_report_marker()
+    print(Fore.YELLOW + f'Select a marker to add to model.')
 
 
 def add_traffic_info_marker():
@@ -39,19 +44,64 @@ def add_traffic_info_marker():
 
     marker.save()
 
-    print(f"Added traffic marker")
+    print(Fore.GREEN + f"Added traffic marker")
 
 
 def add_traffic_light_marker():
-    return
+    lat = 44.38228260367132
+    lng = 25.988554673788016
+    zone = "Bragadiru"
+    orientation = "SE"
+    functioning = False
+    function_error = "" if functioning else "Green Light Error"
+    program = "AUTO" if functioning else "MANUAL"
+    time_red = 200
+    time_yellow = 10
+    time_green = 300
+    error = "" if functioning else "Traffic Light Malfunction\nManual Control Only"
+    ariaLabel = zone + " Traffic Light Control"
+    title = ariaLabel
+
+    marker = TrafficLight(lat=lat, lng=lng, zone=zone, orientation=orientation, functioning=functioning, function_error=function_error, program=program, time_red=time_red, time_yellow=time_yellow, time_green=time_green, error=error, ariaLabel=ariaLabel, title=title)
+
+    marker.save()
+
+    print(Fore.GREEN + f"Added light marker")
 
 
 def add_generate_alert_marker():
-    return
+    lat = 44.376444496762005
+    lng = 26.118174531308174
+    zone = "Grand Arena"
+    speed = 20
+    alert = "Road under Construction - Drive Carefully"
+    content = zone + " Alert & Notification"
+    ariaLabel = content
+    title = ariaLabel
+
+    marker = GenerateAlert(lat=lat, lng=lng, zone=zone, speed=speed, alert=alert, content=content, ariaLabel=ariaLabel, title=title)
+
+    marker.save()
+
+    print(Fore.GREEN + f"Added alert marker")
 
 
 def add_generate_report_marker():
-    return
+    dev = 0.02
+    
+    lat = 44.494100162960486
+    lng = 26.174002017900754
+    zone = "Voluntari"
+    link = f'generateReport?Lat={lat}&Lng={lng}&Dev={dev}'
+    content = zone + " Report"
+    ariaLabel = content
+    title = ariaLabel
+
+    marker = GenerateReport(lat=lat, lng=lng, zone=zone, link=link, content=content, ariaLabel=ariaLabel, title=title)
+
+    marker.save()
+
+    print(Fore.GREEN + f"Added report marker")
 
 
 if __name__ == "__main__":

@@ -29,7 +29,7 @@ function initMap() {
 
   displayMarkers();
   
-  setInterval(displayMarkers, 1000); // 1000 milliseconds
+  setInterval(displayMarkers, 10000); // 1000 milliseconds
 }
 
 async function fetchMarkerData() {

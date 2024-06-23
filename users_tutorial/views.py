@@ -385,7 +385,7 @@ def generateReport(request):
 	p.save()
 
 	buffer.seek(0)
-	file_name = "report_" + str(Lat) + "_" + str(Lng) + ".pdf"
+	file_name = f'report_{Lat}_{Lng}.pdf'
 	return FileResponse(buffer, as_attachment=True, filename=file_name)
 
 
