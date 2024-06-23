@@ -86,6 +86,9 @@ h2 {
 #hiddenTrafficInfoGreenIcon {
   display: None;
 }
+#hiddenTrafficInfoYellowIcon {
+  display: None;
+}
 #hiddenTrafficInfoRedIcon {
   display: None;
 }

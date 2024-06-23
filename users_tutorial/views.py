@@ -282,7 +282,6 @@ def generateReport(request):
 	deviation = float(request.GET.get('Dev', 0))
 
 	buffer = io.BytesIO()
-
 	p = canvas.Canvas(buffer, pagesize=landscape(A4))
 
 	p.setFont("Helvetica-Bold", 16)
@@ -386,7 +385,8 @@ def generateReport(request):
 	p.save()
 
 	buffer.seek(0)
-	return FileResponse(buffer, as_attachment=True, filename="traffic_report.pdf")
+	file_name = "report_" + str(Lat) + "_" + str(Lng) + ".pdf"
+	return FileResponse(buffer, as_attachment=True, filename=file_name)
 
 
 def get_report_data(Lat, Lng, deviation):

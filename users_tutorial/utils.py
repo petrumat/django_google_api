@@ -17,19 +17,17 @@ def update_traffic_info_data():
         # info.incidents = bool(random.getrandbits(1))
         # info.accidents = bool(random.getrandbits(1))
 
-        info.alerts = info.lights or info.cameras or info.signs or info.incidents or info.accidents
+        info.alerts = update_traffic_info_alert(info.lights, info.cameras, info.signs, info.incidents, info.accidents)
         
-        info.alert_content = update_traffic_info_alert_content (info.lights, info.cameras, info.signs, info.incidents, info.accidents)
+        info.alert_content = update_traffic_info_alert_content(info.lights, info.cameras, info.signs, info.incidents, info.accidents)
         
-        info.icon = "green"
-        if info.accidents:
-            info.icon = "red"
-        else:
-            if info.alerts:
-                info.icon = "yellow"
+        info.icon = update_traffic_info_icon(info.accidents, info.alerts)
 
         info.save()
 
+
+def update_traffic_info_alert(lights, cameras, signs, incidents, accidents):
+    return lights or cameras or signs or incidents or accidents
 
 def update_traffic_info_alert_content(lights, cameras, signs, incidents, accidents):
     content = ""
@@ -46,6 +44,14 @@ def update_traffic_info_alert_content(lights, cameras, signs, incidents, acciden
         content = content + " Car Accident."
 
     return content
+
+def update_traffic_info_icon(accidents, alerts):
+    if accidents:
+        return "red"
+    else:
+        if alerts:
+            return "yellow"
+    return "green"
 
 
 
