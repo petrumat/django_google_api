@@ -472,6 +472,6 @@ class FeedbackView(AjaxFormMixin, FormView):
 			return JsonResponse(data)
 		return super().form_invalid(form)
 
-def feedback_list(request):
+def feedbackList(request):
 	feedback_list = Feedback.objects.all()
 	return render(request, 'lists/feedback_list.html', {'feedback_list': feedback_list})

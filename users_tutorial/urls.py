@@ -32,6 +32,6 @@ urlpatterns = [
     path('saveReport', views.saveReport, name="saveReport"),
 
     path('feedback', views.FeedbackView.as_view(), name='feedback'),
-    path('feedbackList', views.feedback_list, name="feedbackList"),
+    path('feedbackList', views.feedbackList, name="feedbackList"),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
