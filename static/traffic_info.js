@@ -4,6 +4,7 @@ $.getScript( "https://maps.googleapis.com/maps/api/js?key=" + google_api_key + "
 });
 
 const centerBucharest = { lat: 44.4268, lng: 26.10246 }
+const milliseconds = 1000;
 let map;
 let searchBox;
 let trafficInfoGreenIcon;
@@ -32,7 +33,7 @@ function initMap() {
   
   displayMarkers();
   
-  setInterval(displayMarkers, 1000); // milliseconds
+  setInterval(displayMarkers, milliseconds);
 }
 
 async function fetchMarkerData() {

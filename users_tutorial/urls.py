@@ -22,9 +22,11 @@ urlpatterns = [
 
     path('generateAlertsList', views.generateAlertsList, name="generateAlertsList"),
     path('generateAlertsData', views.generateAlertsData, name="generateAlertsData"),
+    path('saveAlert', views.saveAlert, name="saveAlert"),
 
     path('generateReportsList', views.generateReportsList, name="generateReportsList"),
     path('generateReportsData', views.generateReportsData, name="generateReportsData"),
     path('generateReport', views.generateReport, name="generateReport"),
+    path('saveReport', views.saveReport, name="saveReport"),
 
 	]

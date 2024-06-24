@@ -4,6 +4,7 @@ $.getScript( "https://maps.googleapis.com/maps/api/js?key=" + google_api_key + "
 });
 
 const centerBucharest = { lat: 44.4268, lng: 26.10246 }
+const milliseconds = 1000;
 let map;
 let searchBox;
 let icon;
@@ -28,7 +29,21 @@ function initMap() {
 
   displayMarkers();
   
-  setInterval(displayMarkers, 10000); // 1000 milliseconds
+  google.maps.event.addListener(map, "rightclick", function(event) {
+    const lat = event.latLng.lat();
+    const lng = event.latLng.lng();
+
+    // Get address based on latitude and longitude
+    geocodeLatLng(lat, lng, (address) => {
+        if (address) {
+            addMarker(lat, lng, address);
+        } else {
+            console.error('Failed to get address for the coordinates.');
+        }
+    });
+  });
+
+  setInterval(displayMarkers, milliseconds);
 }
 
 async function fetchMarkerData() {
@@ -156,4 +171,63 @@ function createSearchBox() {
       map.fitBounds(bounds);
       map.setZoom(14);
   });
+}
+
+function geocodeLatLng(lat, lng, callback) {
+  const geocoder = new google.maps.Geocoder();
+  const latlng = { lat, lng };
+
+  geocoder.geocode({ location: latlng }, (results, status) => {
+      if (status === 'OK') {
+          if (results[0]) {
+              callback(results[0].formatted_address);
+          } else {
+              callback(null);
+          }
+      } else {
+          console.error('Geocoder failed due to: ' + status);
+          callback(null);
+      }
+  });
+}
+
+function addMarker(lat, lng, label) {
+  const marker = new google.maps.Marker({
+      position: { lat, lng },
+      map: map,
+      icon: icon,
+      title: label
+  });
+
+  const infoWindow = new google.maps.InfoWindow({
+    content: "New Marker"
+  });
+
+  marker.addListener("click", () => {
+    infoWindow.open({ anchor: marker, map });
+  });
+
+  mapMarkers.push(marker);
+
+  saveMarkerToBackend(lat, lng, label);
+}
+
+async function saveMarkerToBackend(lat, lng, label) {
+  try {
+    const response = await fetch('/saveReport', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ lat, lng, label })
+    });
+
+    if (response.ok) {
+      console.log('Marker saved successfully');
+    } else {
+      console.error('Error saving marker:', response.statusText);
+    }
+  } catch (error) {
+    console.error('Error saving marker:', error);
+  }
 }

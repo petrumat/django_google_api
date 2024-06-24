@@ -8,6 +8,7 @@ from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.conf import settings
 from django.http import JsonResponse, FileResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.edit import FormView
 from django.views.generic.base import TemplateView
 from django.utils.decorators import method_decorator
@@ -20,6 +21,7 @@ from reportlab.lib.pagesizes import landscape, A4
 from reportlab.lib.units import inch, cm
 from reportlab.platypus import Table, TableStyle
 from reportlab.lib import colors
+import json
 import io
 
 
@@ -229,7 +231,7 @@ def sign_out(request):
 
 
 
-
+# Traffic Info Functions
 
 def trafficInfoList(request):
 	traffic_info_list = TrafficInfo.objects.all()
@@ -242,6 +244,7 @@ def trafficInfoData(request):
 
 
 
+# Traffic Lights Functions
 
 def trafficLightsList(request):
 	traffic_lights_list = TrafficLight.objects.all()
@@ -254,6 +257,7 @@ def trafficLightsData(request):
 
 
 
+# Generate Alerts Functions
 
 def generateAlertsList(request):
 	generate_alerts_list = GenerateAlert.objects.all()
@@ -264,8 +268,31 @@ def generateAlertsData(request):
 	markers = GenerateAlert.objects.all().values()
 	return JsonResponse(list(markers), safe=False)
 
+@csrf_exempt
+def saveAlert(request):
+	if request.method == 'POST':
+		data = json.loads(request.body)
+		dev = 0.02
+		
+		lat = data.get('lat')
+		lng = data.get('lng')
+		zone = data.get('label')
+		speed = 20
+		alert = "Road under Construction - Drive Carefully"
+		content = zone + " Alert & Notification"
+		ariaLabel = content
+		title = ariaLabel
+
+		marker = GenerateAlert(lat=lat, lng=lng, zone=zone, speed=speed, alert=alert, content=content, ariaLabel=ariaLabel, title=title)
+		marker.save()
+
+		return JsonResponse({'status': 'success', 'message': 'Marker saved successfully'})
+	
+	return JsonResponse({'status': 'fail', 'message': 'Invalid request method'})
 
 
+
+# Generate Reports Functions
 
 def generateReportsList(request):
 	generate_reports_list = GenerateReport.objects.all()
@@ -388,7 +415,6 @@ def generateReport(request):
 	file_name = f'report_{Lat}_{Lng}.pdf'
 	return FileResponse(buffer, as_attachment=True, filename=file_name)
 
-
 def get_report_data(Lat, Lng, deviation):
 	if deviation > 0:
 		traffic_info_data = TrafficInfo.objects.filter(
@@ -409,3 +435,24 @@ def get_report_data(Lat, Lng, deviation):
 		alert_data = GenerateAlert.objects.all()
 
 	return traffic_info_data, traffic_light_data, alert_data
+
+@csrf_exempt
+def saveReport(request):
+	if request.method == 'POST':
+		data = json.loads(request.body)
+		dev = 0.02
+		
+		lat = data.get('lat')
+		lng = data.get('lng')
+		zone = data.get('label')
+		link = f'generateReport?Lat={lat}&Lng={lng}&Dev={dev}'
+		content = zone + " Report"
+		ariaLabel = content
+		title = ariaLabel
+
+		marker = GenerateReport(lat=lat, lng=lng, zone=zone, link=link, content=content, ariaLabel=ariaLabel, title=title)
+		marker.save()
+
+		return JsonResponse({'status': 'success', 'message': 'Marker saved successfully'})
+	
+	return JsonResponse({'status': 'fail', 'message': 'Invalid request method'})
