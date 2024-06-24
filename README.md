@@ -29,8 +29,7 @@ FUTURE IMPROVEMENTS:
 - 2FA for accounts (working with Google Social Authentication)
 - other social authentication: Facebook/Meta, Apple, Twitter, GitHub etc.
 - adjust traffic lights (MANUAL/AUTO + time intervals) from user web page
-- implement chat functionalities
-
+- implement live chat functionalities
 
 
 Have fun

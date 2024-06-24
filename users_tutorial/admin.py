@@ -1,3 +1,8 @@
 from django.contrib import admin
+from .models import TrafficInfo, TrafficLight, GenerateAlert, GenerateReport, Feedback
 
-# Register your models here.
+admin.site.register(TrafficInfo)
+admin.site.register(TrafficLight)
+admin.site.register(GenerateAlert)
+admin.site.register(GenerateReport)
+admin.site.register(Feedback)
