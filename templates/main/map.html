@@ -3,97 +3,92 @@
 
 
 {% block extend_head %}
-
-<style>
-  /* Style to make the map container cover the entire viewport */
-  .map-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* Ensure the map stays behind other content */
-  }
-</style>
-
+  <title>Map</title>
+  <style>
+    /* Style to make the map container cover the entire viewport */
+    .map-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1; /* Ensure the map stays behind other content */
+    }
+  </style>
 {% endblock %}
 
 
 {% block content %}
+  <h3 id="map">Django Google API - Map</h3>
 
-<h3 id="map">Django Google API - Map</h3>
+  <div id="map-route"></div>
 
-<div id="map-route"></div>
+  <div class="container">
 
-<div class="container">
-
-  <table>
-    <thead>
-      <tr>
-        <th></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Start</td>
-        <td>{{directions.origin}}</td>      
-      </tr>
-      <tr>
-        <td>Destination</td>
-        <td>{{directions.destination}}</td>      
-      </tr>
-      <tr>
-        <td>Duration</td>
-        <td>{{directions.duration}}</td>      
-      </tr>
-      <tr>
-        <td>Distance</td>
-        <td>{{directions.distance}}</td>      
-      </tr>
-      <tr>
-        <td>Directions</td>
-        <td id="dir-toggle">click <a href="javascript:void(0)" onclick="DirectionsToggle()">here</a></td>      
-      </tr>
-
-    </tbody>
-  </table>
-
-  <table id="dir-table" hidden>
-    <thead>
-      <tr>
-        <th>Directions</th>
-        <th>Distance</th>
-        <th>Duration</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for leg in directions.route %}
-          <tr>
-          <td>Leg {{ forloop.counter }}</td>
-          <td></td>
-          <td></td>  
-        </tr>
-        {% for dist, dur, text in leg.steps %}
+    <table>
+      <thead>
         <tr>
-          <td>{{text|safe}}</td>
-          <td>{{dist}}</td>
-          <td>{{dur}}</td>   
+          <th></th>
+          <th></th>
         </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Start</td>
+          <td>{{directions.origin}}</td>      
+        </tr>
+        <tr>
+          <td>Destination</td>
+          <td>{{directions.destination}}</td>      
+        </tr>
+        <tr>
+          <td>Duration</td>
+          <td>{{directions.duration}}</td>      
+        </tr>
+        <tr>
+          <td>Distance</td>
+          <td>{{directions.distance}}</td>      
+        </tr>
+        <tr>
+          <td>Directions</td>
+          <td id="dir-toggle">click <a href="javascript:void(0)" onclick="DirectionsToggle()">here</a></td>      
+        </tr>
+
+      </tbody>
+    </table>
+
+    <table id="dir-table" hidden>
+      <thead>
+        <tr>
+          <th>Directions</th>
+          <th>Distance</th>
+          <th>Duration</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for leg in directions.route %}
+            <tr>
+            <td>Leg {{ forloop.counter }}</td>
+            <td></td>
+            <td></td>  
+          </tr>
+          {% for dist, dur, text in leg.steps %}
+          <tr>
+            <td>{{text|safe}}</td>
+            <td>{{dist}}</td>
+            <td>{{dur}}</td>   
+          </tr>
+          {% endfor %}
         {% endfor %}
-      {% endfor %}
-    </tbody>
-  </table>
+      </tbody>
+    </table>
 
-</div>
-
+  </div>
 {% endblock %}
 
+
 {% block extend_footer %}
-
-
-<script type="text/javascript">
-
+  <script type="text/javascript">
     var google_api_key = "{{ google_api_key | safe }}";
     
     var lat_a_str = "{{ lat_a }}";
@@ -117,10 +112,7 @@
     var origin = "{{ origin | safe }}";
     var destination = "{{ destination | safe }}";
     var directions = directions;
-
   </script>
-
+  
   <script src="{% static 'google_maps.js' %}"></script>
-
-
 {% endblock %}
