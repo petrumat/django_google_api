@@ -11,10 +11,10 @@ body, html {
   height: 100%;
 }
 
-#signinform, #signupform, #resetpasswordform {
+#signinform, #signupform, #resetpasswordform, #feedbackform {
   text-align: center;
 }
-#signinform label, #signupform label, #resetpasswordform label {
+#signinform label, #signupform label, #resetpasswordform label, #feedbackform label {
   text-align: left;
 }
 
@@ -23,7 +23,7 @@ h2 {
   color: #333;
 }
 
-.sign_in-container, .sign_up-container, .reset_password-container {
+.sign_in-container, .sign_up-container, .reset_password-container, .feedback-container {
   justify-content: center;
   align-items: center;
   max-width: 400px;

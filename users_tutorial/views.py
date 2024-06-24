@@ -4,6 +4,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth import login, logout, authenticate, get_user_model
+from django.contrib import messages
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.conf import settings
@@ -14,8 +15,6 @@ from django.views.generic.base import TemplateView
 from django.utils.decorators import method_decorator
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
-from .models import TrafficInfo, TrafficLight, GenerateAlert, GenerateReport
-from .utils import update_traffic_info_data, update_traffic_lights_data, update_generate_alerts_data, update_generate_reports_data
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import landscape, A4
 from reportlab.lib.units import inch, cm
@@ -24,25 +23,18 @@ from reportlab.lib import colors
 import json
 import io
 
+from tutorial.mixins import	AjaxFormMixin, reCAPTCHAValidation, FormErrors,	is_ajax
+from .forms import UserForm, UserProfileForm, AuthForm,	UsernameForm, FeedbackForm
+from .models import TrafficInfo, TrafficLight, GenerateAlert, GenerateReport, Feedback
+from .utils import update_traffic_info_data, update_traffic_lights_data, update_generate_alerts_data, update_generate_reports_data
 
-from tutorial.mixins import(
-	AjaxFormMixin, 
-	reCAPTCHAValidation,
-	FormErrors,
-	is_ajax
-)
-
-
-from .forms import (
-	UserForm,
-	UserProfileForm,
-	AuthForm,
-	UsernameForm,
-	)
 
 result = "Error"
 message = "There was an error, please try again"
 
+
+
+# User Classes and Functions
 
 class AccountView(TemplateView):
 	'''
@@ -53,8 +45,6 @@ class AccountView(TemplateView):
 	@method_decorator(login_required)
 	def dispatch(self, *args, **kwargs):
 		return super().dispatch(*args, **kwargs)
-
-
 
 def profile_view(request):
 	'''
@@ -85,8 +75,6 @@ def profile_view(request):
 		context['base_country'] = settings.BASE_COUNTRY
 
 		return render(request, 'users/profile.html', context)
-
-
 
 class SignUpView(AjaxFormMixin, FormView):
 	'''
@@ -134,9 +122,6 @@ class SignUpView(AjaxFormMixin, FormView):
 
 		return response
 
-
-
-
 class SignInView(AjaxFormMixin, FormView):
 	'''
 	Generic FormView with our mixin for user sign-in
@@ -165,9 +150,6 @@ class SignInView(AjaxFormMixin, FormView):
 			return JsonResponse(data)
 		
 		return response
-
-
-
 
 class ResetPasswordView(AjaxFormMixin, FormView):
 	'''
@@ -217,10 +199,6 @@ class ResetPasswordView(AjaxFormMixin, FormView):
 			return JsonResponse(data)
 		
 		return response
-
-
-
-
 
 def sign_out(request):
 	'''
@@ -456,3 +434,44 @@ def saveReport(request):
 		return JsonResponse({'status': 'success', 'message': 'Marker saved successfully'})
 	
 	return JsonResponse({'status': 'fail', 'message': 'Invalid request method'})
+
+
+
+# Feedback Functions
+
+class FeedbackView(AjaxFormMixin, FormView):
+	'''
+	Generic FormView with our mixin for user feedback submission
+	'''
+	template_name = "users/feedback.html"
+	form_class = FeedbackForm
+	success_url = '/'
+
+	@method_decorator(login_required)
+	def dispatch(self, *args, **kwargs):
+		return super().dispatch(*args, **kwargs)
+
+	def form_valid(self, form):
+		feedback = form.save(commit=False)
+		feedback.user = self.request.user
+		feedback.save()
+		messages.success(self.request, 'Your feedback has been submitted!')
+
+		if is_ajax(self.request):
+			result = "Success"
+			message = 'Your feedback has been submitted!'
+			data = {'result': result, 'message': message}
+			return JsonResponse(data)
+        
+		return super().form_valid(form)
+	
+	def form_invalid(self, form):
+		if is_ajax(self.request):
+			message = form.errors
+			data = {'result': 'Error', 'message': message}
+			return JsonResponse(data)
+		return super().form_invalid(form)
+
+def feedback_list(request):
+	feedback_list = Feedback.objects.all()
+	return render(request, 'lists/feedback_list.html', {'feedback_list': feedback_list})

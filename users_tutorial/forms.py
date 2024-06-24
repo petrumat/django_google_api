@@ -2,7 +2,7 @@ from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import UserProfile
+from .models import UserProfile, Feedback
 
 
 class UserForm(UserCreationForm):
@@ -76,3 +76,19 @@ class UsernameForm(AuthenticationForm):
 	class Meta:
 		model = User
 		fields = ('username', )
+
+
+
+class FeedbackForm(forms.ModelForm):
+	'''
+	Basic model-form for feedback feature.
+	'''
+	title = forms.CharField(max_length=200, required=True,
+		widget=forms.TextInput(attrs={'placeholder': '*Title..'}))
+	description = forms.CharField(max_length=1000, required=True,
+		widget=forms.Textarea(attrs={'placeholder': '*Description..'}))
+	photo = forms.ImageField(required=False,widget=forms.FileInput(attrs={'placeholder': 'Picture..'}))
+	
+	class Meta:
+		model = Feedback
+		fields = ['title', 'description', 'photo']

@@ -2,15 +2,11 @@ from colorama import init, Fore
 import os, sys, django
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tutorial.settings')
-
 django.setup()
-
 
 from users_tutorial.models import TrafficInfo, TrafficLight, GenerateAlert, GenerateReport
 import users_tutorial.utils as utils
-
 
 init(autoreset=True)
 
@@ -44,7 +40,7 @@ def add_traffic_info_marker():
 
     marker.save()
 
-    print(Fore.GREEN + f"Added traffic marker")
+    print(Fore.GREEN + f"Added traffic marker {marker.pk}")
 
 
 def add_traffic_light_marker():
@@ -66,7 +62,7 @@ def add_traffic_light_marker():
 
     marker.save()
 
-    print(Fore.GREEN + f"Added light marker")
+    print(Fore.GREEN + f"Added light marker {marker.pk}")
 
 
 def add_generate_alert_marker():
@@ -83,7 +79,7 @@ def add_generate_alert_marker():
 
     marker.save()
 
-    print(Fore.GREEN + f"Added alert marker")
+    print(Fore.GREEN + f"Added alert marker {marker.pk}")
 
 
 def add_generate_report_marker():
@@ -101,7 +97,7 @@ def add_generate_report_marker():
 
     marker.save()
 
-    print(Fore.GREEN + f"Added report marker")
+    print(Fore.GREEN + f"Added report marker {marker.pk}")
 
 
 if __name__ == "__main__":
