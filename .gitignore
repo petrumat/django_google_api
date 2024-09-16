@@ -1,6 +1,7 @@
 reCAPTCHA details.txt
 .env
 .vscode/settings.json
+db.sqlite3
 
 main/__pycache__/
 main/migrations/__pycache__/
